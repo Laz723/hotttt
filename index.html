@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Banque Privée · Dynastie</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070709;
+  --surface: #0e0e12;
+  --card: #13131a;
+  --border: #1e1e28;
+  --text: #e8e8f0;
+  --muted: #5a5a72;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: #5c4a1e;
+  --green: #2ecc71;
+  --red: #e74c3c;
+  --blue: #4a9eff;
+  --purple: #9b59b6;
+}
+
+- { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+font-family: ‘JetBrains Mono’, monospace;
+margin: 0;
+background: var(–bg);
+color: var(–text);
+font-size: 12px;
+padding-bottom: calc(80px + env(safe-area-inset-bottom));
+padding-top: env(safe-area-inset-top);
+-webkit-font-smoothing: antialiased;
+overflow-x: hidden;
+}
+
+/* Subtle grid background */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image:
+linear-gradient(var(–border) 1px, transparent 1px),
+linear-gradient(90deg, var(–border) 1px, transparent 1px);
+background-size: 40px 40px;
+opacity: 0.3;
+pointer-events: none;
+z-index: 0;
+}
+
+.container { padding: 14px; position: relative; z-index: 1; }
+
+/* === CARDS === */
+.card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 16px;
+margin-bottom: 12px;
+position: relative;
+overflow: hidden;
+}
+.card::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 1px;
+background: linear-gradient(90deg, transparent, var(–gold-dim), transparent);
+}
+
+/* === SECTION HEADERS === */
+.sec-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 11px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–gold);
+margin: 0 0 14px;
+padding-bottom: 8px;
+border-bottom: 1px solid var(–border);
+font-weight: 600;
+}
+
+/* === DYNASTY HEADER === */
+.dynasty-header {
+text-align: center;
+padding: 20px 0 10px;
+position: relative;
+}
+.gen-badge {
+display: inline-block;
+background: linear-gradient(135deg, var(–gold-dim), #2a2010);
+color: var(–gold-light);
+padding: 3px 12px;
+border-radius: 20px;
+font-size: 9px;
+letter-spacing: 2px;
+text-transform: uppercase;
+border: 1px solid var(–gold-dim);
+margin-bottom: 12px;
+}
+.net-worth-label { font-size: 10px; color: var(–muted); letter-spacing: 2px; text-transform: uppercase; }
+.net-worth-value {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 42px;
+font-weight: 300;
+color: var(–gold-light);
+line-height: 1.1;
+margin: 4px 0;
+letter-spacing: -1px;
+}
+.net-worth-value.neg { color: var(–red); }
+
+.macro-pill {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+background: var(–surface);
+border: 1px solid var(–border);
+padding: 4px 10px;
+border-radius: 20px;
+font-size: 10px;
+margin-top: 6px;
+}
+.macro-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* === STATS GRID === */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.stat-box {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 10px;
+}
+.stat-label { font-size: 9px; color: var(–muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.stat-value { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-sub { font-size: 9px; color: var(–muted); margin-top: 2px; }
+
+.pos { color: var(–green); }
+.neg { color: var(–red); }
+.gold { color: var(–gold); }
+.blue { color: var(–blue); }
+
+/* === PROGRESS BARS === */
+.bar-track { background: var(–surface); border-radius: 3px; height: 4px; overflow: hidden; margin-top: 6px; border: 1px solid var(–border); }
+.bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+
+/* === BUTTONS === */
+button {
+background: var(–surface);
+color: var(–text);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 10px 12px;
+font-size: 11px;
+font-family: ‘JetBrains Mono’, monospace;
+font-weight: 600;
+cursor: pointer;
+width: 100%;
+margin-bottom: 7px;
+transition: all 0.15s ease;
+text-align: left;
+letter-spacing: 0.3px;
+}
+button:hover { background: #1a1a24; border-color: #2e2e40; }
+button:active { transform: scale(0.98); opacity: 0.8; }
+button:disabled { opacity: 0.25; cursor: not-allowed; pointer-events: none; }
+
+.btn-gold {
+background: linear-gradient(135deg, #2a1f06, #1a1200);
+border-color: var(–gold-dim);
+color: var(–gold-light);
+}
+.btn-gold:hover { background: linear-gradient(135deg, #3a2d0a, #2a1f06); border-color: var(–gold); }
+.btn-danger { border-color: #3a1010; color: var(–red); }
+.btn-danger:hover { background: #1a0a0a; }
+.btn-blue { border-color: #1a2a4a; color: var(–blue); }
+
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-row button { margin-bottom: 0; }
+
+/* === LOG === */
+#log {
+height: 130px;
+overflow-y: auto;
+background: var(–bg);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 8px 10px;
+font-size: 10px;
+line-height: 1.7;
+scrollbar-width: thin;
+scrollbar-color: var(–border) transparent;
+}
+.log-line { padding: 2px 0; border-bottom: 1px solid #0a0a10; }
+.log-line:last-child { border: none; }
+.log-ts { color: var(–muted); margin-right: 6px; }
+
+/* === TAB BAR === */
+.tab-bar {
+position: fixed;
+bottom: 0;
+width: 100%;
+background: rgba(7,7,9,0.95);
+backdrop-filter: blur(20px);
+border-top: 1px solid var(–border);
+display: flex;
+justify-content: space-around;
+align-items: center;
+padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+z-index: 1000;
+}
+.tab-btn {
+background: none;
+border: none;
+color: var(–muted);
+font-size: 9px;
+font-family: ‘JetBrains Mono’, monospace;
+letter-spacing: 1px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 3px;
+width: 20%;
+padding: 4px 0;
+margin: 0;
+text-transform: uppercase;
+cursor: pointer;
+transition: color 0.2s;
+}
+.tab-btn:hover { background: none; }
+.tab-btn.active { color: var(–gold-light); }
+.tab-icon { font-size: 18px; line-height: 1; }
+.tab-btn.active .tab-icon { filter: drop-shadow(0 0 6px var(–gold)); }
+
+/* === VIEWS === */
+.view { display: none; animation: fadeUp 0.25s ease; }
+.view.active { display: block; }
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(8px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* === STOCK CHART === */
+#stockCanvas {
+width: 100%;
+height: 90px;
+border-radius: 6px;
+display: block;
+margin-top: 8px;
+}
+
+/* === EVENT TOAST === */
+.event-toast {
+position: fixed;
+top: calc(16px + env(safe-area-inset-top));
+left: 16px;
+right: 16px;
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 14px 16px;
+z-index: 2000;
+animation: toastIn 0.3s ease;
+box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+.event-toast.gold { border-color: var(–gold-dim); }
+.event-toast.red { border-color: #3a1010; }
+.event-toast.green { border-color: #0a2a18; }
+.toast-icon { font-size: 24px; margin-bottom: 6px; }
+.toast-title { font-family: ‘Cormorant Garamond’, serif; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.toast-body { font-size: 11px; color: var(–muted); line-height: 1.5; }
+.toast-close { margin-top: 12px; }
+@keyframes toastIn {
+from { opacity: 0; transform: translateY(-12px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* === NOTIFICATION BADGE === */
+.notif { display: inline-block; background: var(–red); color: #fff; border-radius: 50%; width: 14px; height: 14px; font-size: 8px; line-height: 14px; text-align: center; position: absolute; top: -4px; right: -4px; }
+
+/* === CAREER TREE === */
+.career-node {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 8px 10px;
+border-radius: 8px;
+margin-bottom: 6px;
+border: 1px solid var(–border);
+background: var(–surface);
+transition: all 0.2s;
+}
+.career-node.active { border-color: var(–gold-dim); background: #1a1508; }
+.career-node.locked { opacity: 0.35; }
+.career-dot { width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(–muted); flex-shrink: 0; }
+.career-dot.filled { background: var(–gold); border-color: var(–gold); }
+.career-info { flex: 1; }
+.career-title { font-size: 11px; font-weight: 600; }
+.career-salary { font-size: 9px; color: var(–green); }
+.career-req { font-size: 9px; color: var(–muted); }
+
+/* === SKILLS SECTION === */
+.skill-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.skill-name { font-size: 10px; }
+.skill-pips { display: flex; gap: 3px; }
+.pip { width: 10px; height: 10px; border-radius: 2px; border: 1px solid var(–border); background: var(–surface); }
+.pip.filled { background: var(–gold); border-color: var(–gold); }
+
+/* === WEALTH TIERS === */
+.tier-bar { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.tier-label { font-size: 9px; color: var(–muted); width: 70px; }
+.tier-progress { flex: 1; }
+</style>
+
+</head>
+<body>
+
+<!-- ===== HOME ===== -->
+
+<div id="view-home" class="container view active">
+  <div class="dynasty-header">
+    <div class="gen-badge" id="genBadge">Génération I · Fondateur</div>
+    <div class="net-worth-label">Patrimoine Net</div>
+    <div class="net-worth-value" id="netWorth">0 €</div>
+    <div class="macro-pill">
+      <div class="macro-dot" id="macroDot" style="background:var(--muted)"></div>
+      <span id="macroTxt">Initialisation...</span>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:12px;">
+    <div class="stat-box">
+      <div class="stat-label">Liquidités</div>
+      <div class="stat-value gold" id="courant">0</div>
+      <div class="stat-sub">EUR</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Cash Flow</div>
+      <div class="stat-value" id="cashflow">0</div>
+      <div class="stat-sub">par mois</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Passif</div>
+      <div class="stat-value neg" id="dettes">0</div>
+      <div class="stat-sub">EUR</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="grid-2">
+      <div>
+        <div class="stat-label">Âge</div>
+        <div class="stat-value"><span id="ageA">18</span> ans</div>
+        <div class="stat-sub" id="statutVie">Actif</div>
+      </div>
+      <div>
+        <div class="stat-label">Réputation</div>
+        <div class="stat-value gold" id="repTxt">0</div>
+        <div class="bar-track"><div id="jauge-rep" class="bar-fill" style="background:var(--gold); width:0%"></div></div>
+        <div class="stat-sub">Points de prestige</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="grid-2">
+      <div>
+        <div class="stat-label">Santé Mentale</div>
+        <div class="stat-value" id="bonheurTxt">100%</div>
+        <div class="bar-track"><div id="jauge-bonheur" class="bar-fill" style="background:var(--green); width:100%"></div></div>
+      </div>
+      <div>
+        <div class="stat-label">Santé Physique</div>
+        <div class="stat-value" id="santeTxt">100%</div>
+        <div class="bar-track"><div id="jauge-sante" class="bar-fill" style="background:var(--blue); width:100%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">📜 Registre Dynastique</div>
+    <div id="log"></div>
+  </div>
+</div>
+
+<!-- ===== MARCHÉS ===== -->
+
+<div id="view-invest" class="container view">
+  <div class="card">
+    <div class="sec-title">📈 Bourse en Direct</div>
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="stat-box">
+        <div class="stat-label">Actions (ETF World)</div>
+        <div class="stat-value" id="etf">0 €</div>
+        <div class="stat-sub" id="etfPerf">perf. —</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Indice</div>
+        <div class="stat-value" id="indexVal">100.00</div>
+        <div class="stat-sub" id="tendanceBourse">Neutre</div>
+      </div>
+    </div>
+    <canvas id="stockCanvas"></canvas>
+    <div class="btn-row" style="margin-top:10px;">
+      <button onclick="investir('etf', 5000)">+ 5 000 € Actions</button>
+      <button onclick="vendreETF(5000)">− 5 000 € Actions</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">🏦 Épargne Sécurisée</div>
+    <div class="stat-box" style="margin-bottom:10px;">
+      <div class="stat-label">Fonds Euro · 3% / an</div>
+      <div class="stat-value pos" id="livret">0 €</div>
+    </div>
+    <div class="btn-row">
+      <button onclick="investir('livret', 5000)">+ 5 000 €</button>
+      <button onclick="vendrelivret(5000)">− 5 000 €</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">🏢 Immobilier</div>
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="stat-box">
+        <div class="stat-label">Lots détenus</div>
+        <div class="stat-value gold" id="nbApparts">0</div>
+        <div class="stat-sub">propriétés</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Rente locative</div>
+        <div class="stat-value pos" id="renteImmo">+0 €/m</div>
+        <div class="stat-sub">Prix marché : <span id="prixImmo" class="gold">—</span></div>
+      </div>
+    </div>
+    <button class="btn-gold" onclick="acheterAppartement()">Acquérir un Lot (apport 20k€ + crédit)</button>
+    <div class="btn-row">
+      <button onclick="vendreAppartement()">Vendre un Lot</button>
+      <button onclick="rembourserDette()">Purger 10k€ dettes</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">₿ Crypto</div>
+    <div class="stat-box" style="margin-bottom:10px;">
+      <div class="stat-label">Portefeuille Crypto · Très Volatil</div>
+      <div class="stat-value" id="crypto">0 €</div>
+    </div>
+    <div class="btn-row">
+      <button onclick="investir('crypto', 5000)">+ 5 000 €</button>
+      <button onclick="vendreCrypto(5000)">− 5 000 €</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AFFAIRES ===== -->
+
+<div id="view-biz" class="container view">
+
+  <div id="retraiteBanner" style="display:none;" class="card" style="text-align:center; border-color:var(--gold-dim);">
+    <div class="sec-title">🏖️ Retraite Dorée</div>
+    <div class="net-worth-value gold" id="pensionTxt">0 €</div>
+    <div class="stat-sub" style="text-align:center;">pension mensuelle</div>
+  </div>
+
+  <div class="card" id="sectionSalarie">
+    <div class="sec-title">💼 Carrière</div>
+    <div id="careerTree"></div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button onclick="payerFormation()">Formation (5k€)</button>
+      <button onclick="demanderPromotion()">Promotion</button>
+    </div>
+    <div class="skill-row" style="margin-top:10px;">
+      <div class="skill-name">Études :</div>
+      <div class="skill-pips" id="pipEtudes"></div>
+    </div>
+  </div>
+
+  <div class="card" id="sectionBusiness" style="display:none; border-color:var(--gold-dim);">
+    <div class="sec-title">👑 Empire Privé</div>
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="stat-box">
+        <div class="stat-label">Niveau Holding</div>
+        <div class="stat-value gold" id="bizLevelTxt">1</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Bénéfices</div>
+        <div class="stat-value pos" id="bizRevenus">0 €/m</div>
+      </div>
+    </div>
+    <button class="btn-gold" onclick="ameliorerBusiness()">Levée de fonds (−<span id="coutAmeliorationBiz">20k</span>€)</button>
+    <button onclick="introduireBourseIPO()">Introduire en Bourse (IPO)</button>
+  </div>
+
+<button id="btnLancerBiz" class="btn-gold" onclick="lancerBusiness()">Fonder une Société (−100k€)</button>
+
+  <div class="card" style="margin-top:10px;">
+    <div class="sec-title">👨‍👩‍👧 Descendance & Héritage</div>
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="stat-box">
+        <div class="stat-label">Héritiers</div>
+        <div class="stat-value" id="nbEnfants">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Testament</div>
+        <div class="stat-value blue" id="taxeHeritage">30%</div>
+        <div class="stat-sub">droits succession</div>
+      </div>
+    </div>
+    <button onclick="avoirEnfant()">Avoir un enfant (−500€/mois)</button>
+    <button class="btn-gold" onclick="creerFiducieSuccession()">Créer une Fiducie (−50k€) → −10% droits</button>
+  </div>
+</div>
+
+<!-- ===== LUXE ===== -->
+
+<div id="view-shop" class="container view">
+  <div class="card">
+    <div class="sec-title">💎 Actifs de Prestige</div>
+    <p style="font-size:10px; color:var(--muted); margin: 0 0 14px; line-height:1.6;">Réduisent votre stress mensuel · Augmentent votre réputation</p>
+
+```
+<button class="btn-gold" onclick="acheterLuxe('Montre de Prestige', 20000, 50, 1, 5)">⌚ Montre de Prestige — 20k€ · −1 Stress · +5 Rep</button>
+<button class="btn-gold" onclick="acheterLuxe('Supercar', 250000, 1000, 3, 20)">🏎️ Supercar — 250k€ · −3 Stress · +20 Rep</button>
+<button class="btn-gold" onclick="acheterLuxe('Jet Privé', 8000000, 50000, 10, 80)">✈️ Jet Privé — 8M€ · −10 Stress · +80 Rep</button>
+<button class="btn-gold" onclick="acheterLuxe('Yacht', 3000000, 15000, 8, 50)">🛥️ Yacht — 3M€ · −8 Stress · +50 Rep</button>
+<button class="btn-gold" onclick="acheterLuxe('Résidence Monaco', 15000000, 30000, 5, 120)">🏰 Villa Monaco — 15M€ · −5 Stress · +120 Rep</button>
+
+<div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
+  <div class="stat-row" style="display:flex; justify-content:space-between; margin-bottom:5px;">
+    <span class="stat-label">Bonus stress permanent</span>
+    <span class="gold" id="bonusLuxe">0</span>
+  </div>
+  <div class="stat-row" style="display:flex; justify-content:space-between;">
+    <span class="stat-label">Frais entretien luxe</span>
+    <span class="neg" id="fraisLuxe">0 €/m</span>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="card">
+    <div class="sec-title">🩺 Santé & Bien-être</div>
+    <button onclick="loisir(5000, 0, 30)">🧘 Retraite Méditative (5k€) · +30 Mental</button>
+    <button onclick="loisir(20000, 0, 0, 30)">🏥 Check-up Clinique Privée (20k€) · +30 Physique</button>
+    <button onclick="loisir(3000, 0, 15, 10)">🌴 Vacances Luxe (3k€) · +15 Mental +10 Physique</button>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">⚙️ Gestion</div>
+    <button class="btn-danger" onclick="resetSave()">💣 Détruire la Dynastie (Reset)</button>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('home', this)">
+    <span class="tab-icon">🏦</span>Bilan
+  </button>
+  <button class="tab-btn" onclick="switchTab('invest', this)">
+    <span class="tab-icon">📈</span>Marchés
+  </button>
+  <button class="tab-btn" onclick="switchTab('biz', this)">
+    <span class="tab-icon">💼</span>Affaires
+  </button>
+  <button class="tab-btn" onclick="switchTab('shop', this)">
+    <span class="tab-icon">💎</span>Luxe
+  </button>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const fmt = n => Math.floor(n).toLocaleString('fr-FR');
+const fmtM = n => {
+  let a = Math.abs(n);
+  if (a >= 1e9) return (n/1e9).toFixed(1) + ' Md€';
+  if (a >= 1e6) return (n/1e6).toFixed(2) + ' M€';
+  if (a >= 1e3) return (n/1e3).toFixed(0) + ' k€';
+  return fmt(n) + ' €';
+};
+
+const JOBS = [
+  { titre:"Employé Débutant",  salaire:1800,  reqEtude:0, emoji:"🧑‍💼" },
+  { titre:"Cadre Dynamique",   salaire:3500,  reqEtude:1, emoji:"📊" },
+  { titre:"Directeur Régional",salaire:7500,  reqEtude:2, emoji:"🏢" },
+  { titre:"VP Exécutif",       salaire:18000, reqEtude:3, emoji:"👔" },
+  { titre:"C-Level Officer",   salaire:40000, reqEtude:4, emoji:"🎩" },
+  { titre:"Conseiller Élite",  salaire:80000, reqEtude:5, emoji:"👑" },
+];
+
+const RANDOM_EVENTS = [
+  {
+    id:'inherit_uncle', title:"Héritage Surprise", icon:"🎩",
+    body:"Un oncle lointain vous lègue une petite fortune.", type:'gold',
+    effect: s => { let g = 20000 + Math.random()*80000; s.courant += g; return `+${fmtM(g)} reçus`; }
+  },
+  {
+    id:'market_tip', title:"Tuyau Boursier", icon:"📡",
+    body:"Un contact insider vous donne une info. Les marchés vont exploser.", type:'green',
+    effect: s => { s.macroCycle = 2; return "Cycle BULL activé"; }
+  },
+  {
+    id:'lawsuit', title:"Procès Inattendu", icon:"⚖️",
+    body:"Vous êtes poursuivi en justice. Les frais d'avocat sont salés.", type:'red',
+    effect: s => { let g = 15000 + Math.random()*35000; s.courant -= g; return `-${fmtM(g)} de frais légaux`; }
+  },
+  {
+    id:'divorce', title:"Rupture Financière", icon:"💔",
+    body:"Une séparation coûteuse s'impose. Le patrimoine est divisé.", type:'red',
+    effect: s => { let cut = 0.15; s.courant *= (1-cut); s.etf *= (1-cut); return `-${Math.floor(cut*100)}% du patrimoine liquide`; }
+  },
+  {
+    id:'health_crisis', title:"Crise de Santé", icon:"🏥",
+    body:"Un problème de santé nécessite une intervention urgente.", type:'red',
+    effect: s => { s.sante = Math.max(10, s.sante - 30); s.courant -= 10000; return "−30 Santé · −10k€"; }
+  },
+  {
+    id:'startup_invest', title:"Opportunité Startup", icon:"🚀",
+    body:"Une startup prometteuse cherche des fonds. Risque élevé, gain potentiel énorme.", type:'gold',
+    effect: s => {
+      if (s.courant >= 50000) {
+        s.courant -= 50000;
+        let mult = Math.random() < 0.35 ? 5 + Math.random()*10 : 0;
+        if (mult > 0) { s.courant += 50000 * mult; return `SUCCÈS ! ×${mult.toFixed(1)} → +${fmtM(50000*mult-50000)}`; }
+        return "FAILLITE — Les 50k€ sont perdus.";
+      }
+      return "Fonds insuffisants, opportunité manquée.";
+    }
+  },
+  {
+    id:'scandal', title:"Scandale Médiatique", icon:"📰",
+    body:"Une rumeur vous éclabousse. Votre réputation prend un coup.", type:'red',
+    effect: s => { s.reputation = Math.max(0, s.reputation - 30); return "-30 Réputation"; }
+  },
+  {
+    id:'award', title:"Prix d'Excellence", icon:"🏆",
+    body:"Vous recevez une distinction professionnelle. Votre réputation monte en flèche.", type:'gold',
+    effect: s => { s.reputation = Math.min(500, s.reputation + 40); return "+40 Réputation"; }
+  },
+  {
+    id:'crypto_hack', title:"Hack Crypto", icon:"🔓",
+    body:"Votre wallet est compromis. Perte partielle.", type:'red',
+    effect: s => { let loss = s.crypto * 0.4; s.crypto -= loss; return `-${fmtM(loss)} de crypto volés`; }
+  },
+  {
+    id:'tax_audit', title:"Contrôle Fiscal", icon:"🧾",
+    body:"Le fisc s'intéresse à vos finances. Redressement fiscal.", type:'red',
+    effect: s => { let t = s.revenusAnnuelsCumules * 0.08; s.courant -= t; return `-${fmtM(t)} de redressement`; }
+  },
+];
+
+// Stock chart data
+let stockHistory = Array(60).fill(100);
+let stockIndex = 100;
+
+const DEFAULT_STATE = {
+  generation: 1, moisTotal: 0, ageAnnees: 18, ageMois: 0,
+  courant: 5000, livret: 0, etf: 0, crypto: 0, dettes: 0,
+  bonheur: 100, sante: 100, reputation: 0, enfants: 0,
+  jobLevel: 0, niveauEtude: 0, isEntrepreneur: false, bizLevel: 1, ipoListed: false,
+  isRetired: false, pension: 0,
+  coutVieDeBase: 1000, nbApparts: 0, prixImmoBase: 150000,
+  revenusAnnuelsCumules: 0, macroCycle: 1,
+  luxeEntretien: 0, luxeStressReduction: 0,
+  maxSalaireAtteint: 1800,
+  taxSuccession: 30, fiducie: false,
+  lastEvent: -999
+};
+
+let state = JSON.parse(localStorage.getItem('simubanque_v7')) || JSON.parse(JSON.stringify(DEFAULT_STATE));
+
+// ============================================================
+// UI ROUTING
+// ============================================================
+function switchTab(id, btn) {
+  document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'invest') drawChart();
+}
+
+// ============================================================
+// LOGGING
+// ============================================================
+function log(msg, col="#8e8e93") {
+  const el = document.getElementById('log');
+  const div = document.createElement('div');
+  div.className = 'log-line';
+  div.innerHTML = `<span class="log-ts">[G${state.generation}·${state.ageAnnees}a]</span><span style="color:${col}">${msg}</span>`;
+  el.insertBefore(div, el.firstChild);
+  if (el.children.length > 60) el.removeChild(el.lastChild);
+}
+
+// ============================================================
+// TOAST EVENTS
+// ============================================================
+function showEvent(ev) {
+  let res = ev.effect(state);
+  const t = document.createElement('div');
+  t.className = `event-toast ${ev.type}`;
+  t.innerHTML = `
+    <div class="toast-icon">${ev.icon}</div>
+    <div class="toast-title">${ev.title}</div>
+    <div class="toast-body">${ev.body}<br><br><strong style="color:var(--gold)">${res}</strong></div>
+    <button class="toast-close" onclick="this.parentElement.remove()">Compris →</button>
+  `;
+  document.body.appendChild(t);
+  log(`Événement : ${ev.title} — ${res}`, ev.type==='red'?'var(--red)':'var(--gold)');
+  updateUI();
+}
+
+// ============================================================
+// CALCULATIONS
+// ============================================================
+function getPrixImmo() {
+  return state.prixImmoBase * (state.macroCycle === 0 ? 0.75 : state.macroCycle === 2 ? 1.35 : 1.0);
+}
+
+function getRevenus() {
+  if (state.isRetired) return state.pension;
+  if (state.isEntrepreneur) {
+    let base = state.bizLevel * 5000;
+    let mult = state.macroCycle === 0 ? 0.5 : state.macroCycle === 2 ? 1.6 : 1.0;
+    if (state.ipoListed) base *= 1.5;
+    return base * mult;
+  }
+  let sal = JOBS[state.jobLevel].salaire;
+  // Rep bonus
+  let repBonus = Math.floor(state.reputation / 50) * 500;
+  return sal + repBonus;
+}
+
+function getCharges() {
+  let credit = state.dettes > 0 ? (state.dettes * 0.05) / 12 : 0;
+  let immoMaint = state.nbApparts * 800;
+  return state.coutVieDeBase + (state.enfants * 500) + immoMaint + state.luxeEntretien + credit;
+}
+
+function getNetWorth() {
+  let valBiz = (state.isEntrepreneur && !state.isRetired) ? state.bizLevel * 150000 * (state.ipoListed ? 2 : 1) : 0;
+  return state.courant + state.livret + state.etf + state.crypto + (state.nbApparts * getPrixImmo()) + valBiz - state.dettes;
+}
+
+// ============================================================
+// STOCK CHART
+// ============================================================
+function drawChart() {
+  const canvas = document.getElementById('stockCanvas');
+  if (!canvas) return;
+  canvas.width = canvas.offsetWidth * 2;
+  canvas.height = 180;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  
+  ctx.clearRect(0, 0, w, h);
+  
+  let min = Math.min(...stockHistory) * 0.98;
+  let max = Math.max(...stockHistory) * 1.02;
+  let range = max - min || 1;
+  
+  const px = i => (i / (stockHistory.length - 1)) * w;
+  const py = v => h - ((v - min) / range) * h * 0.85 - h * 0.05;
+  
+  // Grid lines
+  ctx.strokeStyle = '#1a1a24';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 4; i++) {
+    let y = h * (i / 4);
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+  
+  // Gradient fill
+  let grad = ctx.createLinearGradient(0, 0, 0, h);
+  let isUp = stockHistory[stockHistory.length-1] >= stockHistory[0];
+  let col = isUp ? '#2ecc71' : '#e74c3c';
+  grad.addColorStop(0, col + '40');
+  grad.addColorStop(1, col + '00');
+  
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(stockHistory[0]));
+  stockHistory.forEach((v, i) => ctx.lineTo(px(i), py(v)));
+  ctx.lineTo(px(stockHistory.length-1), h);
+  ctx.lineTo(0, h);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+  
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(stockHistory[0]));
+  stockHistory.forEach((v, i) => ctx.lineTo(px(i), py(v)));
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 3;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+  
+  // Current dot
+  ctx.beginPath();
+  ctx.arc(px(stockHistory.length-1), py(stockHistory[stockHistory.length-1]), 5, 0, Math.PI*2);
+  ctx.fillStyle = col;
+  ctx.fill();
+  ctx.strokeStyle = '#070709';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  
+  canvas.style.transform = 'scale(0.5) translate(-50%, -50%)';
+  canvas.style.width = '100%';
+  canvas.style.height = '90px';
+  canvas.style.transformOrigin = 'top left';
+}
+
+// ============================================================
+// UI UPDATE
+// ============================================================
+function updateUI() {
+  let nw = getNetWorth();
+  let rev = getRevenus() + (state.nbApparts * 1000);
+  let charges = getCharges();
+  let cf = rev - charges;
+  
+  // Net worth
+  let nwEl = document.getElementById('netWorth');
+  nwEl.textContent = fmtM(nw);
+  nwEl.className = 'net-worth-value ' + (nw < 0 ? 'neg' : '');
+  
+  // Gen
+  const romans = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  let genR = romans[Math.min(state.generation-1, 9)] || state.generation;
+  document.getElementById('genBadge').textContent = `Génération ${genR} · ${state.generation === 1 ? 'Fondateur' : 'Héritier'}`;
+  
+  // Stats
+  document.getElementById('courant').textContent = fmtM(state.courant);
+  document.getElementById('cashflow').textContent = (cf >= 0 ? '+' : '') + fmtM(cf);
+  document.getElementById('cashflow').className = 'stat-value ' + (cf >= 0 ? 'pos' : 'neg');
+  document.getElementById('dettes').textContent = fmtM(state.dettes);
+  document.getElementById('ageA').textContent = state.ageAnnees;
+  
+  // Macro
+  const macroData = [
+    { txt: 'Crise Économique', col: 'var(--red)' },
+    { txt: 'Marché Stable',    col: 'var(--muted)' },
+    { txt: 'Bull Market 🚀',   col: 'var(--green)' },
+  ];
+  document.getElementById('macroTxt').textContent = macroData[state.macroCycle].txt;
+  document.getElementById('macroDot').style.background = macroData[state.macroCycle].col;
+  
+  // Statut
+  let statut = state.isRetired ? '🏖️ Retraité' : state.isEntrepreneur ? '👑 Entrepreneur' : '💼 Salarié';
+  document.getElementById('statutVie').textContent = statut;
+  
+  // Bars
+  let bh = Math.max(0, Math.min(100, state.bonheur));
+  let bs = Math.max(0, Math.min(100, state.sante));
+  document.getElementById('bonheurTxt').textContent = Math.floor(bh) + '%';
+  document.getElementById('santeTxt').textContent = Math.floor(bs) + '%';
+  document.getElementById('jauge-bonheur').style.width = bh + '%';
+  document.getElementById('jauge-bonheur').style.background = bh > 60 ? 'var(--green)' : bh > 30 ? 'var(--gold)' : 'var(--red)';
+  document.getElementById('jauge-sante').style.width = bs + '%';
+  document.getElementById('jauge-sante').style.background = bs > 60 ? 'var(--blue)' : bs > 30 ? 'var(--gold)' : 'var(--red)';
+  
+  // Rep
+  document.getElementById('repTxt').textContent = Math.floor(state.reputation);
+  document.getElementById('jauge-rep').style.width = Math.min(100, state.reputation / 5) + '%';
+  
+  // Marchés
+  document.getElementById('livret').textContent = fmtM(state.livret);
+  document.getElementById('etf').textContent = fmtM(state.etf);
+  document.getElementById('crypto').textContent = fmtM(state.crypto);
+  let etfPerf = stockHistory.length > 1 ? ((stockHistory[stockHistory.length-1]/stockHistory[0]-1)*100).toFixed(1) : '0.0';
+  document.getElementById('etfPerf').textContent = (etfPerf >= 0 ? '+' : '') + etfPerf + '%';
+  document.getElementById('etfPerf').style.color = etfPerf >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('indexVal').textContent = stockIndex.toFixed(2);
+  
+  let tendances = ['↘ Baissier', '→ Latéral', '↗ Haussier'];
+  document.getElementById('tendanceBourse').textContent = tendances[state.macroCycle];
+  document.getElementById('prixImmo').textContent = fmtM(getPrixImmo());
+  document.getElementById('nbApparts').textContent = state.nbApparts;
+  document.getElementById('renteImmo').textContent = '+' + fmtM(state.nbApparts * 1000) + '/m';
+  
+  // Career tree
+  buildCareerTree();
+  buildStudyPips();
+  
+  // Business
+  if (state.isRetired) {
+    document.getElementById('sectionSalarie').style.display = 'none';
+    document.getElementById('sectionBusiness').style.display = 'none';
+    document.getElementById('btnLancerBiz').style.display = 'none';
+    document.getElementById('retraiteBanner').style.display = 'block';
+    document.getElementById('pensionTxt').textContent = fmtM(state.pension) + '/mois';
+  } else if (state.isEntrepreneur) {
+    document.getElementById('sectionSalarie').style.display = 'none';
+    document.getElementById('btnLancerBiz').style.display = 'none';
+    document.getElementById('retraiteBanner').style.display = 'none';
+    document.getElementById('sectionBusiness').style.display = 'block';
+    document.getElementById('bizLevelTxt').textContent = state.bizLevel + (state.ipoListed ? ' (IPO ✅)' : '');
+    document.getElementById('bizRevenus').textContent = fmtM(getRevenus()) + '/m';
+    document.getElementById('coutAmeliorationBiz').textContent = fmtM(state.bizLevel * 20000);
+  } else {
+    document.getElementById('sectionBusiness').style.display = 'none';
+    document.getElementById('retraiteBanner').style.display = 'none';
+    document.getElementById('sectionSalarie').style.display = 'block';
+    document.getElementById('btnLancerBiz').style.display = 'block';
+  }
+  
+  document.getElementById('nbEnfants').textContent = state.enfants;
+  document.getElementById('taxeHeritage').textContent = state.taxSuccession + '%';
+  document.getElementById('bonusLuxe').textContent = '-' + state.luxeStressReduction;
+  document.getElementById('fraisLuxe').textContent = fmtM(state.luxeEntretien) + '/m';
+  
+  localStorage.setItem('simubanque_v7', JSON.stringify(state));
+  
+  // Redraw chart if visible
+  if (document.getElementById('view-invest').classList.contains('active')) drawChart();
+}
+
+function buildCareerTree() {
+  const el = document.getElementById('careerTree');
+  if (!el) return;
+  el.innerHTML = JOBS.map((j, i) => {
+    let isActive = i === state.jobLevel && !state.isEntrepreneur;
+    let isLocked = state.niveauEtude < j.reqEtude;
+    let cls = isActive ? 'active' : isLocked ? 'locked' : '';
+    return `<div class="career-node ${cls}">
+      <div class="career-dot ${i <= state.jobLevel ? 'filled' : ''}"></div>
+      <div class="career-info">
+        <div class="career-title">${j.emoji} ${j.titre}</div>
+        <div class="career-salary">${fmtM(j.salaire)}/mois</div>
+      </div>
+      <div class="career-req" style="color:${isLocked?'var(--red)':'var(--muted)'}">Niv.${j.reqEtude}</div>
+    </div>`;
+  }).join('');
+}
+
+function buildStudyPips() {
+  const el = document.getElementById('pipEtudes');
+  if (!el) return;
+  el.innerHTML = Array(5).fill(0).map((_, i) =>
+    `<div class="pip ${i < state.niveauEtude ? 'filled' : ''}"></div>`
+  ).join('');
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function investir(type, m) {
+  if (state.courant >= m) {
+    state.courant -= m;
+    state[type] += m;
+    log(`Investissement ${type} : −${fmtM(m)}`, 'var(--blue)');
+    updateUI();
+  }
+}
+function vendreETF(m) {
+  let s = Math.min(m, state.etf);
+  if (s > 0) { state.etf -= s; state.courant += s; log(`Vente ETF : +${fmtM(s)}`, 'var(--green)'); updateUI(); }
+}
+function vendrelivret(m) {
+  let s = Math.min(m, state.livret);
+  if (s > 0) { state.livret -= s; state.courant += s; updateUI(); }
+}
+function vendreCrypto(m) {
+  let s = Math.min(m, state.crypto);
+  if (s > 0) { state.crypto -= s; state.courant += s; log(`Vente Crypto : +${fmtM(s)}`, 'var(--green)'); updateUI(); }
+}
+
+function acheterAppartement() {
+  if (state.courant >= 20000) {
+    let p = getPrixImmo();
+    state.courant -= 20000;
+    state.dettes += Math.max(0, p - 20000);
+    state.nbApparts++;
+    state.reputation = Math.min(500, state.reputation + 5);
+    log(`🏢 Acquisition immobilière ${fmtM(p)}`, 'var(--gold)');
+    updateUI();
+  }
+}
+function vendreAppartement() {
+  if (state.nbApparts > 0) {
+    let p = getPrixImmo();
+    state.nbApparts--;
+    state.courant += p;
+    log(`Vente immobilière +${fmtM(p)}`, 'var(--green)');
+    updateUI();
+  }
+}
+function rembourserDette() {
+  let m = Math.min(10000, state.dettes, state.courant);
+  if (m > 0) { state.courant -= m; state.dettes -= m; updateUI(); }
+}
+
+function lancerBusiness() {
+  if (state.courant >= 100000) {
+    state.courant -= 100000;
+    state.isEntrepreneur = true;
+    state.maxSalaireAtteint = Math.max(state.maxSalaireAtteint, 5000);
+    state.reputation = Math.min(500, state.reputation + 15);
+    log('👑 Société fondée ! Bienvenue entrepreneur.', 'var(--gold)');
+    updateUI();
+  }
+}
+function ameliorerBusiness() {
+  let c = state.bizLevel * 20000;
+  if (state.courant >= c) {
+    state.courant -= c;
+    state.bizLevel++;
+    state.maxSalaireAtteint = Math.max(state.maxSalaireAtteint, state.bizLevel * 5000);
+    state.reputation = Math.min(500, state.reputation + 10);
+    log(`📈 Holding niveau ${state.bizLevel}`, 'var(--gold)');
+    updateUI();
+  }
+}
+function introduireBourseIPO() {
+  if (!state.ipoListed && state.bizLevel >= 5 && state.courant >= 200000) {
+    state.courant -= 200000;
+    state.ipoListed = true;
+    state.reputation = Math.min(500, state.reputation + 60);
+    log('🎉 IPO réussie ! La holding est cotée en bourse !', 'var(--gold)');
+    updateUI();
+  } else {
+    alert('Requis : Holding niv. 5+, capital 200k€');
+  }
+}
+
+function payerFormation() {
+  if (state.courant >= 5000 && state.niveauEtude < 5) {
+    state.courant -= 5000;
+    state.niveauEtude++;
+    state.reputation = Math.min(500, state.reputation + 5);
+    log(`🎓 Diplôme niveau ${state.niveauEtude} obtenu`, 'var(--blue)');
+    updateUI();
+  }
+}
+function demanderPromotion() {
+  if (state.jobLevel >= JOBS.length - 1) return;
+  let next = JOBS[state.jobLevel + 1];
+  if (state.niveauEtude >= next.reqEtude) {
+    state.jobLevel++;
+    state.maxSalaireAtteint = Math.max(state.maxSalaireAtteint, JOBS[state.jobLevel].salaire);
+    state.reputation = Math.min(500, state.reputation + 8);
+    log(`🆙 Promotion : ${JOBS[state.jobLevel].titre}`, 'var(--green)');
+    updateUI();
+  } else {
+    alert(`Niveau d'études requis : ${next.reqEtude}`);
+  }
+}
+
+function avoirEnfant() {
+  state.enfants++;
+  log('👶 Un héritier est né.', 'var(--gold)');
+  updateUI();
+}
+
+function creerFiducieSuccession() {
+  if (!state.fiducie && state.courant >= 50000) {
+    state.courant -= 50000;
+    state.fiducie = true;
+    state.taxSuccession = Math.max(5, state.taxSuccession - 10);
+    log('📜 Fiducie créée. Droits de succession réduits.', 'var(--gold)');
+    updateUI();
+  }
+}
+
+function acheterLuxe(nom, prix, frais, stressBonus, rep) {
+  if (state.courant >= prix) {
+    state.courant -= prix;
+    state.luxeEntretien += frais;
+    state.luxeStressReduction += stressBonus;
+    state.reputation = Math.min(500, state.reputation + rep);
+    log(`💎 ${nom} acquis. +${rep} réputation.`, 'var(--gold)');
+    updateUI();
+  }
+}
+
+function loisir(cout, _legacy, bonheur = 0, sante = 0) {
+  if (state.courant >= cout) {
+    state.courant -= cout;
+    state.bonheur = Math.min(100, state.bonheur + bonheur);
+    state.sante = Math.min(100, state.sante + sante);
+    updateUI();
+  }
+}
+
+function resetSave() {
+  if (confirm('Détruire la dynastie ? Cette action est irréversible.')) {
+    localStorage.removeItem('simubanque_v7');
+    location.reload();
+  }
+}
+
+// ============================================================
+// VIEILLISSEMENT & HÉRITAGE
+// ============================================================
+function gererVieillesse() {
+  if (state.ageAnnees >= 65 && !state.isRetired) {
+    state.isRetired = true;
+    state.isEntrepreneur = false;
+    state.pension = state.maxSalaireAtteint * 0.55;
+    log(`🏖️ Retraite ! Pension : ${fmtM(state.pension)}/mois`, 'var(--gold)');
+    updateUI();
+  }
+  if (state.ageAnnees >= 75) {
+    let mort = (state.ageAnnees - 70) * 0.004;
+    // Santé influence mortalité
+    mort *= (2 - state.sante / 100);
+    if (Math.random() < mort) declencherHeritage();
+  }
+}
+
+function declencherHeritage() {
+  let nw = getNetWorth();
+  if (state.enfants === 0) {
+    alert(`💀 Décédé à ${state.ageAnnees} ans sans héritier.\nL'État saisit tout. Fin de la Dynastie.`);
+    localStorage.removeItem('simubanque_v7');
+    location.reload(); return;
+  }
+  let taxes = nw * (state.taxSuccession / 100);
+  let herit = Math.max(5000, nw - taxes);
+  alert(`💀 Décédé à ${state.ageAnnees} ans.\nPatrimoine : ${fmtM(nw)}\nSuccession (${state.taxSuccession}%) : −${fmtM(taxes)}\nVos enfants héritent de ${fmtM(herit)}.`);
+
+  let newState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  newState.generation = state.generation + 1;
+  newState.courant = herit;
+  newState.taxSuccession = state.fiducie ? Math.max(10, 30 - 10) : 30;
+  newState.reputation = Math.floor(state.reputation * 0.3); // Un peu de réputation héritée
+  state = newState;
+  log(`👑 Génération ${state.generation} prend le relais !`, 'var(--gold)');
+  updateUI();
+}
+
+// ============================================================
+// GAME LOOP — 1s = 1 mois
+// ============================================================
+setInterval(() => {
+  state.moisTotal++;
+  state.ageMois++;
+
+  // Macro cycle (changements rares)
+  if (Math.random() < 0.008) {
+    let old = state.macroCycle;
+    state.macroCycle = Math.floor(Math.random() * 3);
+    if (state.macroCycle !== old) {
+      let msgs = ['📉 KRACH ! Récession mondiale.', '⚖️ Stabilisation des marchés.', '🚀 BULL RUN ! Euphorie générale.'];
+      log(msgs[state.macroCycle], state.macroCycle === 0 ? 'var(--red)' : state.macroCycle === 2 ? 'var(--green)' : 'var(--muted)');
+    }
+  }
+
+  // Revenus & charges
+  let rev = getRevenus() + (state.nbApparts * 1000);
+  let charges = getCharges();
+  state.courant += rev - charges;
+  state.revenusAnnuelsCumules += rev;
+
+  // Fonds euro
+  if (state.livret > 0) state.livret *= 1.0025;
+
+  // ETF
+  let etfMult = state.macroCycle === 0 ? -0.012 : state.macroCycle === 2 ? 0.018 : 0.004;
+  etfMult += (Math.random() - 0.5) * 0.025;
+  if (state.etf > 0) state.etf *= (1 + etfMult);
+
+  // Stock index update
+  stockIndex = Math.max(10, stockIndex * (1 + etfMult * 0.6 + (Math.random()-0.5)*0.015));
+  stockHistory.push(stockIndex);
+  if (stockHistory.length > 60) stockHistory.shift();
+
+  // Crypto (très volatil)
+  if (state.crypto > 0) {
+    let cryptoMult = (Math.random() - 0.45) * 0.12;
+    state.crypto *= (1 + cryptoMult);
+    state.crypto = Math.max(0, state.crypto);
+  }
+
+  // Intérêts dettes
+  if (state.dettes > 0) state.dettes *= 1.0042;
+
+  // Réputation decay (légère)
+  state.reputation = Math.max(0, state.reputation - 0.05);
+
+  // Santé mentale
+  if (!state.isRetired) {
+    let stress = state.isEntrepreneur ? 8 : 5;
+    stress -= (state.enfants > 0 ? 1 : 0);
+    stress -= state.luxeStressReduction;
+    stress -= Math.floor(state.reputation / 100); // réputation atténue le stress
+    state.bonheur = Math.max(0, state.bonheur - Math.max(0.5, stress));
+  } else {
+    state.bonheur = Math.min(100, state.bonheur + 1.5);
+  }
+
+  // Santé physique (déclin avec l'âge, meilleure si riche)
+  let santeDec = 0.05 + (Math.max(0, state.ageAnnees - 40) * 0.01);
+  let wealthHPBonus = Math.min(0.04, getNetWorth() / 5e6 * 0.04);
+  state.sante = Math.max(0, state.sante - santeDec + wealthHPBonus);
+
+  // Burn-out
+  if (state.bonheur <= 0) {
+    state.courant -= 5000;
+    state.bonheur = 35;
+    state.sante = Math.max(0, state.sante - 10);
+    log('🚨 BURN-OUT sévère — clinique : −5k€', 'var(--red)');
+  }
+
+  // Ruine
+  if (state.courant < -50000) {
+    state.courant = 2000;
+    state.dettes += 30000;
+    log('⚠️ Insolvabilité ! Plan de redressement forcé.', 'var(--red)');
+  }
+
+  gererVieillesse();
+
+  // Événement aléatoire (tous les ~18-36 mois)
+  let evCooldown = 18 + Math.random() * 18;
+  if (state.moisTotal - state.lastEvent > evCooldown && Math.random() < 0.04) {
+    state.lastEvent = state.moisTotal;
+    let ev = RANDOM_EVENTS[Math.floor(Math.random() * RANDOM_EVENTS.length)];
+    showEvent(ev);
+  }
+
+  // Fin d'année
+  if (state.ageMois >= 12) {
+    state.ageMois = 0;
+    state.ageAnnees++;
+
+    // Impôts progressifs
+    let tx = state.revenusAnnuelsCumules > 500000 ? 0.35 : state.revenusAnnuelsCumules > 100000 ? 0.28 : 0.20;
+    let impot = state.revenusAnnuelsCumules * tx;
+    state.courant -= impot;
+
+    // Taxe foncière
+    if (state.nbApparts > 0) state.courant -= state.nbApparts * 1500;
+
+    state.revenusAnnuelsCumules = 0;
+    state.coutVieDeBase *= 1.025;
+    state.prixImmoBase *= 1.028;
+    
+    log(`📅 Bilan ${state.ageAnnees - 1} ans — Impôts : −${fmtM(impot)} (${Math.floor(tx*100)}%)`, 'var(--muted)');
+  }
+
+  updateUI();
+}, 1000);
+
+// INIT
+updateUI();
+drawChart();
+if (state.moisTotal === 0) {
+  log('⚜️ Bienvenue à la Banque Privée. Bâtissez votre Dynastie.', 'var(--gold)');
+}
+</script>
+
+</body>
+</html>
