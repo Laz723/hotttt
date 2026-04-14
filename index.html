@@ -1,260 +1,322 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dynastie VIII">
+<meta name="theme-color" content="#04040c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Banque Privée · Dynastie VIII</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
-   DESIGN SYSTEM — Art Déco Financier
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   DESIGN SYSTEM — Banque Privée Dynastique
+   iOS-Native · Art Déco Financier · Premium Dark
+══════════════════════════════════════════════════════ */
 :root {
-  --bg:        #05050a;
-  --deep:      #08080f;
-  --surface:   #0d0d18;
-  --card:      #111120;
-  --border:    #1c1c32;
-  --border-h:  #2a2a48;
-  --text:      #ddddf0;
-  --muted:     #5a5a80;
-  --faint:     #2a2a40;
-
-–gold:      #c8a84b;
-–gold-l:    #f0d080;
-–gold-d:    #7a5f1a;
-–gold-bg:   #1a1408;
-
-–emerald:   #2ecc71;
-–ruby:      #e74c3c;
-–sapphire:  #3a8eff;
-–violet:    #9b59b6;
-–amber:     #f39c12;
-
-–bar-h: 5px;
-–r: 14px;
-–r-sm: 8px;
+  --bg:          #04040c;
+  --deep:        #060610;
+  --surface:     #0b0b1c;
+  --card:        #0f0f22;
+  --card-hi:     #141430;
+  --border:      #1c1c3a;
+  --border-h:    #2a2a52;
+  --border-act:  #3c3c72;
+  --text:        #e6e6f5;
+  --text-2:      #8888b0;
+  --muted:       #484870;
+  --faint:       #1e1e38;
+  --gold:        #c8a84b;
+  --gold-l:      #f0d080;
+  --gold-d:      #7a5f1a;
+  --gold-bg:     #14100a;
+  --gold-glow:   rgba(200,168,75,.15);
+  --emerald:     #34d399;
+  --ruby:        #f87171;
+  --sapphire:    #60a5fa;
+  --violet:      #a78bfa;
+  --amber:       #fbbf24;
+  --r:           18px;
+  --r-sm:        12px;
+  --r-xs:        8px;
+  --tab-h:       56px;
+  --safe-t:      env(safe-area-inset-top,0px);
+  --safe-b:      env(safe-area-inset-bottom,0px);
+  --safe-l:      env(safe-area-inset-left,0px);
+  --safe-r:      env(safe-area-inset-right,0px);
 }
 
-- { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  margin: 0; padding: 0;
+}
+
+html { height: 100%; overflow: hidden; }
 
 body {
-font-family: ‘DM Mono’, monospace;
-background: var(–bg);
-color: var(–text);
-font-size: 11px;
-line-height: 1.5;
-padding-bottom: calc(72px + env(safe-area-inset-bottom));
-padding-top: env(safe-area-inset-top);
--webkit-font-smoothing: antialiased;
-overflow-x: hidden;
-min-height: 100vh;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-/* Subtle diagonal stripes background */
+/* ── GRAIN TEXTURE ── */
 body::before {
-content: ‘’;
-position: fixed; inset: 0;
-background-image: repeating-linear-gradient(
--45deg,
-transparent 0px,
-transparent 18px,
-rgba(200,168,75,0.015) 18px,
-rgba(200,168,75,0.015) 19px
-);
-pointer-events: none; z-index: 0;
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    repeating-linear-gradient(-48deg,transparent 0,transparent 22px,rgba(200,168,75,.012) 22px,rgba(200,168,75,.012) 23px),
+    repeating-linear-gradient(42deg,transparent 0,transparent 34px,rgba(60,60,114,.04) 34px,rgba(60,60,114,.04) 35px);
+  pointer-events: none;
 }
 
-/* Corner ornaments on cards */
-.card::after, .card::before {
-content: ‘◆’;
-position: absolute;
-font-size: 6px;
-color: var(–gold-d);
-line-height: 1;
+/* ── SCROLL CONTAINER ── */
+#appRoot {
+  position: relative; z-index: 1;
+  height: 100%;
+  display: flex; flex-direction: column;
 }
-.card::before { top: 6px; left: 8px; }
-.card::after  { bottom: 6px; right: 8px; }
 
-/* ── LAYOUT ── */
-.page { padding: 12px; position: relative; z-index: 1; }
-.view { display: none; animation: fadeUp .25s ease both; }
-.view.active { display: block; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.scroll-pane {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-bottom: calc(var(--tab-h) + var(--safe-b) + 16px);
+  padding-top: calc(var(--safe-t) + 8px);
+}
 
+/* ── PAGES ── */
+.page { padding: 14px 14px 0; }
+.view { display: none; }
+.view.active { display: block; animation: pageIn .28s cubic-bezier(.4,0,.2,1) both; }
+.view.slide-left  { animation: slideLeft .28s cubic-bezier(.4,0,.2,1) both; }
+.view.slide-right { animation: slideRight .28s cubic-bezier(.4,0,.2,1) both; }
+@keyframes pageIn    { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@keyframes slideLeft  { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:none; } }
+@keyframes slideRight { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:none; } }
+
+/* ── CARDS ── */
 .card {
-background: var(–card);
-border: 1px solid var(–border);
-border-radius: var(–r);
-padding: 15px;
-margin-bottom: 11px;
-position: relative;
-overflow: hidden;
-transition: border-color .2s;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, transform .15s;
 }
-.card:hover { border-color: var(–border-h); }
-.card.gold-border { border-color: var(–gold-d); }
-.card.gold-border::before, .card.gold-border::after { color: var(–gold); }
-
-/* Gold shimmer on top of card */
-.card .shimmer {
-position: absolute; top: 0; left: 0; right: 0; height: 1px;
-background: linear-gradient(90deg, transparent 0%, var(–gold-d) 40%, var(–gold) 50%, var(–gold-d) 60%, transparent 100%);
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,transparent 0%,var(--gold-d) 30%,var(--gold) 50%,var(--gold-d) 70%,transparent 100%);
+  opacity: .6;
 }
+.card.gold {
+  border-color: var(--gold-d);
+  background: linear-gradient(135deg, var(--gold-bg) 0%, var(--card) 100%);
+  box-shadow: 0 0 40px var(--gold-glow), inset 0 1px 0 rgba(200,168,75,.15);
+}
+.card.gold::before { opacity: 1; }
+.card-active { border-color: var(--border-act); }
 
 /* ── TYPOGRAPHY ── */
 .serif {
-font-family: ‘Playfair Display’, serif;
+  font-family: 'Cormorant Garamond', serif;
 }
-.sec-label {
-font-size: 9px;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–gold);
-font-weight: 500;
-margin-bottom: 13px;
-display: flex;
-align-items: center;
-gap: 8px;
+.section-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.sec-label::after {
-content: ‘’;
-flex: 1;
-height: 1px;
-background: linear-gradient(90deg, var(–gold-d), transparent);
+.section-label::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(200,168,75,.4), transparent);
 }
 
-/* ── DYNASTY HERO ── */
-.dynasty-hero {
-text-align: center;
-padding: 18px 10px 14px;
+/* ── HERO SECTION ── */
+.hero {
+  text-align: center;
+  padding: 10px 8px 18px;
 }
-.gen-crest {
-display: inline-flex;
-align-items: center;
-gap: 7px;
-border: 1px solid var(–gold-d);
-border-radius: 40px;
-padding: 4px 14px 4px 10px;
-background: var(–gold-bg);
-margin-bottom: 14px;
+.dynasty-badge {
+  display: inline-flex;
+  align-items: center; gap: 6px;
+  border: 1px solid var(--gold-d);
+  border-radius: 50px;
+  padding: 5px 14px 5px 10px;
+  background: var(--gold-bg);
+  margin-bottom: 18px;
+  box-shadow: inset 0 1px 0 rgba(200,168,75,.1);
 }
-.crest-icon { font-size: 13px; }
-.crest-text { font-size: 9px; letter-spacing: 2px; color: var(–gold); text-transform: uppercase; }
+.dynasty-badge .icon { font-size: 14px; }
+.dynasty-badge .text { font-size: 8.5px; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; }
 
-.nw-label { font-size: 9px; color: var(–muted); letter-spacing: 3px; text-transform: uppercase; }
-.nw-value {
-font-family: ‘Playfair Display’, serif;
-font-size: 38px;
-font-weight: 700;
-color: var(–gold-l);
-line-height: 1;
-margin: 6px 0 4px;
-letter-spacing: -1px;
+.nw-label { font-size: 9px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+.nw-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  margin-bottom: 8px;
+  transition: color .4s;
 }
-.nw-value.neg { color: var(–ruby); }
-.nw-delta {
-font-size: 10px;
-padding: 2px 10px;
-border-radius: 20px;
-display: inline-block;
+.nw-amount.neg {
+  background: linear-gradient(135deg, var(--ruby) 0%, #ff9999 50%, var(--ruby) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
-.nw-delta.pos { background: rgba(46,204,113,.12); color: var(–emerald); }
-.nw-delta.neg { background: rgba(231,76,60,.12); color: var(–ruby); }
+.nw-cf {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; padding: 4px 12px;
+  border-radius: 50px;
+  transition: all .3s;
+}
+.nw-cf.pos { background: rgba(52,211,153,.12); color: var(--emerald); }
+.nw-cf.neg { background: rgba(248,113,113,.12); color: var(--ruby); }
 
-/* Macro status */
-.macro-bar {
-display: flex;
-align-items: center;
-gap: 8px;
-justify-content: center;
-margin-top: 10px;
-font-size: 9px;
-color: var(–muted);
-letter-spacing: 1px;
+.macro-row {
+  display: flex; align-items: center; gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+  font-size: 9px; color: var(--muted);
+  letter-spacing: 1px;
 }
 .macro-led {
-width: 7px; height: 7px;
-border-radius: 50%;
-box-shadow: 0 0 6px currentColor;
-flex-shrink: 0;
+  width: 7px; height: 7px; border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+  flex-shrink: 0;
+  animation: pulse 2.4s ease infinite;
 }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
 
-/* ── STAT ATOMS ── */
-.stats-row { display: grid; gap: 8px; margin-bottom: 11px; }
+/* ── TIER BADGE ── */
+.tier-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 8.5px; padding: 2px 9px;
+  border-radius: 50px; border: 1px solid;
+}
+.tier-0 { border-color: var(--muted); color: var(--muted); }
+.tier-1 { border-color: var(--emerald); color: var(--emerald); }
+.tier-2 { border-color: var(--sapphire); color: var(--sapphire); }
+.tier-3 { border-color: var(--violet); color: var(--violet); }
+.tier-4 { border-color: var(--amber); color: var(--amber); }
+.tier-5 { border-color: var(--gold); color: var(--gold-l); box-shadow: 0 0 10px var(--gold-glow); }
+
+/* ── STATS GRID ── */
+.stats-row { display: grid; gap: 8px; margin-bottom: 12px; }
 .s2 { grid-template-columns: 1fr 1fr; }
 .s3 { grid-template-columns: 1fr 1fr 1fr; }
 .s4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-
 .stat {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–r-sm);
-padding: 9px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 11px;
 }
-.stat-lbl { font-size: 8px; color: var(–muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
-.stat-val { font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stat-sub { font-size: 8px; color: var(–muted); margin-top: 1px; }
+.stat-lbl { font-size: 8px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+.stat-val { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat-sub { font-size: 8px; color: var(--muted); margin-top: 2px; }
 
-/* Colors */
-.c-gold    { color: var(–gold-l); }
-.c-green   { color: var(–emerald); }
-.c-red     { color: var(–ruby); }
-.c-blue    { color: var(–sapphire); }
-.c-violet  { color: var(–violet); }
-.c-amber   { color: var(–amber); }
-.c-muted   { color: var(–muted); }
+/* ── COLORS ── */
+.c-gold   { color: var(--gold-l); }
+.c-green  { color: var(--emerald); }
+.c-red    { color: var(--ruby); }
+.c-blue   { color: var(--sapphire); }
+.c-violet { color: var(--violet); }
+.c-amber  { color: var(--amber); }
+.c-muted  { color: var(--muted); }
+
+/* ── HEALTH RINGS ── */
+.ring-row { display: flex; gap: 14px; justify-content: center; margin: 4px 0; }
+.ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.ring-lbl { font-size: 8px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+.ring-val { font-size: 10px; font-weight: 600; }
+.ring-svg { transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--border); stroke-width: 5; }
+.ring-fill { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset .7s cubic-bezier(.4,0,.2,1), stroke .5s; }
 
 /* ── PROGRESS BARS ── */
 .bar-wrap { margin-top: 5px; }
 .bar-track {
-background: var(–deep);
-border-radius: 3px;
-height: var(–bar-h);
-overflow: hidden;
-border: 1px solid var(–faint);
+  background: var(--deep); border-radius: 4px;
+  height: 4px; overflow: hidden; border: 1px solid var(--faint);
 }
 .bar-fill {
-height: 100%;
-border-radius: 3px;
-transition: width .7s cubic-bezier(.4,0,.2,1), background .5s;
+  height: 100%; border-radius: 4px;
+  transition: width .7s cubic-bezier(.4,0,.2,1), background .5s;
 }
 
 /* ── BUTTONS ── */
 .btn {
-display: block;
-width: 100%;
-background: var(–surface);
-color: var(–text);
-border: 1px solid var(–border);
-border-radius: var(–r-sm);
-padding: 10px 13px;
-font-size: 11px;
-font-family: ‘DM Mono’, monospace;
-font-weight: 500;
-cursor: pointer;
-text-align: left;
-margin-bottom: 7px;
-transition: background .15s, border-color .15s, transform .1s;
-letter-spacing: .2px;
-line-height: 1.4;
-position: relative;
-overflow: hidden;
+  display: block; width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500; cursor: pointer;
+  text-align: left; margin-bottom: 7px;
+  transition: background .12s, border-color .12s, transform .1s, box-shadow .12s;
+  letter-spacing: .1px; line-height: 1.4;
+  position: relative; overflow: hidden;
+  -webkit-appearance: none; appearance: none;
+  min-height: 44px; /* iOS min touch target */
 }
-.btn:active { transform: scale(.97); }
-.btn:hover  { background: #18182a; border-color: var(–border-h); }
-.btn:disabled { opacity: .2; cursor: not-allowed; pointer-events: none; }
+.btn:active { transform: scale(.96); box-shadow: none; }
+.btn:hover { background: #14142a; border-color: var(--border-h); }
+.btn:disabled { opacity: .25; cursor: not-allowed; pointer-events: none; }
+.btn .btn-icon { margin-right: 6px; }
+.btn .btn-sub { display: block; font-size: 9px; color: var(--muted); margin-top: 2px; }
 
-.btn-g {
-background: var(–gold-bg);
-border-color: var(–gold-d);
-color: var(–gold-l);
+/* Ripple effect */
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,.08) 0%, transparent 70%);
+  opacity: 0; transition: opacity .3s;
 }
-.btn-g:hover { background: #221c0a; border-color: var(–gold); }
-.btn-r { border-color: #2a1010; color: var(–ruby); }
-.btn-r:hover { background: #180808; }
-.btn-b { border-color: #0a1a2a; color: var(–sapphire); }
+.btn:active::after { opacity: 1; }
+
+.btn-gold {
+  background: var(--gold-bg);
+  border-color: var(--gold-d);
+  color: var(--gold-l);
+  box-shadow: inset 0 1px 0 rgba(200,168,75,.1);
+}
+.btn-gold:hover { background: #1c1508; border-color: var(--gold); }
+.btn-red { background: rgba(248,113,113,.05); border-color: rgba(248,113,113,.2); color: var(--ruby); }
+.btn-blue { background: rgba(96,165,250,.05); border-color: rgba(96,165,250,.2); color: var(--sapphire); }
+.btn-violet { background: rgba(167,139,250,.05); border-color: rgba(167,139,250,.2); color: var(--violet); }
 
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 7px; }
 .btn-row .btn { margin-bottom: 0; }
@@ -262,673 +324,936 @@ color: var(–gold-l);
 .btn-row-3 .btn { margin-bottom: 0; }
 
 /* ── CHART ── */
-#chartWrap {
-position: relative;
-background: var(–deep);
-border: 1px solid var(–border);
-border-radius: var(–r-sm);
-padding: 4px;
-margin: 10px 0;
-height: 100px;
+.chart-container {
+  position: relative;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 6px;
+  margin: 10px 0;
+  height: 120px;
+  overflow: hidden;
 }
-#stockCanvas { width: 100%; height: 100%; display: block; }
-.chart-overlay {
-position: absolute;
-top: 8px; left: 10px;
-pointer-events: none;
+#stockCanvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.chart-overlay-l {
+  position: absolute; top: 10px; left: 12px;
+  pointer-events: none;
 }
-.chart-price { font-size: 16px; font-weight: 500; }
-.chart-delta { font-size: 9px; }
+.chart-price { font-size: 18px; font-weight: 600; line-height: 1; }
+.chart-delta { font-size: 9px; margin-top: 2px; }
 .chart-overlay-r {
-position: absolute;
-top: 8px; right: 10px;
-text-align: right;
-pointer-events: none;
+  position: absolute; top: 10px; right: 12px;
+  text-align: right; pointer-events: none;
 }
-.chart-label { font-size: 8px; color: var(–muted); letter-spacing: 1px; }
+.chart-tag { font-size: 8px; color: var(--muted); letter-spacing: 1px; }
+.chart-crosshair {
+  position: absolute; top: 0; bottom: 0;
+  width: 1px; background: rgba(200,168,75,.4);
+  pointer-events: none; display: none;
+}
+.chart-crosshair-dot {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+  transform: translate(-50%,-50%);
+  pointer-events: none; display: none;
+}
+.chart-tooltip {
+  position: absolute;
+  background: var(--card-hi);
+  border: 1px solid var(--border-h);
+  border-radius: var(--r-xs);
+  padding: 4px 8px; font-size: 9px;
+  pointer-events: none; display: none;
+  white-space: nowrap;
+}
 
 /* ── LOG ── */
 #log {
-height: 140px;
-overflow-y: auto;
-background: var(–deep);
-border: 1px solid var(–border);
-border-radius: var(–r-sm);
-padding: 8px 10px;
-scrollbar-width: thin;
-scrollbar-color: var(–faint) transparent;
+  height: 150px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  scrollbar-width: none;
 }
-.log-line { padding: 3px 0; border-bottom: 1px solid var(–faint); display: flex; gap: 6px; align-items: flex-start; }
-.log-line:first-child { padding-top: 0; }
-.log-ts { color: var(–muted); white-space: nowrap; flex-shrink: 0; font-size: 9px; }
+#log::-webkit-scrollbar { display: none; }
+.log-line {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--faint);
+  display: flex; gap: 6px; align-items: flex-start;
+  animation: logIn .2s ease both;
+}
+@keyframes logIn { from { opacity:0; transform:translateX(-6px); } to { opacity:1; transform:none; } }
+.log-ts { color: var(--muted); white-space: nowrap; flex-shrink: 0; font-size: 8.5px; }
 .log-msg { font-size: 10px; line-height: 1.4; }
 
 /* ── CAREER LADDER ── */
 .career-rung {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 8px 10px;
-border-radius: var(–r-sm);
-border: 1px solid transparent;
-margin-bottom: 5px;
-transition: all .2s;
-background: var(–surface);
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 11px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  margin-bottom: 5px;
+  background: var(--surface);
+  transition: all .2s;
 }
-.career-rung.active    { border-color: var(–gold-d); background: var(–gold-bg); }
-.career-rung.locked    { opacity: .3; filter: grayscale(.8); }
-.career-rung.unlocked  { border-color: var(–border); }
-.c-pip { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(–muted); flex-shrink: 0; transition: all .2s; }
-.c-pip.on { background: var(–gold); border-color: var(–gold); box-shadow: 0 0 6px var(–gold-d); }
+.career-rung.active { border-color: var(--gold-d); background: var(--gold-bg); }
+.career-rung.locked { opacity: .3; filter: grayscale(.8); }
+.c-pip {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--muted); flex-shrink: 0;
+  transition: all .3s;
+}
+.c-pip.on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold-d); }
 .c-rung-info { flex: 1; min-width: 0; }
-.c-rung-title { font-size: 11px; font-weight: 500; }
-.c-rung-sal   { font-size: 9px; color: var(–emerald); }
-.c-rung-req   { font-size: 8px; padding: 1px 5px; border-radius: 4px; background: var(–faint); flex-shrink: 0; }
+.c-rung-title { font-size: 11px; font-weight: 600; }
+.c-rung-sal { font-size: 9px; color: var(--emerald); }
+.c-rung-req { font-size: 8px; padding: 2px 6px; border-radius: 5px; background: var(--faint); flex-shrink: 0; }
 
 /* ── STUDY PIPS ── */
-.pip-row { display: flex; gap: 4px; }
-.pip { width: 11px; height: 11px; border-radius: 2px; border: 1px solid var(–border); background: var(–surface); transition: all .3s; }
-.pip.on { background: var(–gold); border-color: var(–gold); box-shadow: 0 0 5px var(–gold-d); }
+.pip-row { display: flex; gap: 5px; }
+.pip {
+  width: 12px; height: 12px; border-radius: 3px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: all .35s cubic-bezier(.34,1.56,.64,1);
+}
+.pip.on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px var(--gold-d); }
 
-/* ── NETWORK CONTACTS ── */
+/* ── CONTACTS ── */
 .contact-item {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 8px;
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–r-sm);
-margin-bottom: 6px;
-transition: border-color .2s;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  margin-bottom: 7px;
+  transition: all .2s;
+  min-height: 44px;
 }
-.contact-item.connected { border-color: var(–gold-d); }
-.contact-avatar { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+.contact-item.connected { border-color: var(--gold-d); background: var(--gold-bg); }
+.contact-avatar { font-size: 22px; width: 34px; text-align: center; flex-shrink: 0; }
 .contact-info { flex: 1; min-width: 0; }
-.contact-name { font-size: 11px; font-weight: 500; }
-.contact-role { font-size: 9px; color: var(–muted); }
-.contact-bonus { font-size: 9px; color: var(–emerald); }
-.contact-cost { font-size: 9px; color: var(–gold); }
-.contact-badge { font-size: 8px; padding: 2px 6px; background: var(–gold-d); color: var(–gold-l); border-radius: 4px; flex-shrink: 0; }
+.contact-name { font-size: 11px; font-weight: 600; }
+.contact-role { font-size: 9px; color: var(--muted); }
+.contact-bonus { font-size: 9px; color: var(--emerald); margin-top: 1px; }
+.contact-badge {
+  font-size: 8px; padding: 3px 8px;
+  background: rgba(200,168,75,.15);
+  color: var(--gold); border-radius: 5px; flex-shrink: 0;
+  border: 1px solid var(--gold-d);
+}
+.contact-badge.lock { background: var(--faint); color: var(--muted); border-color: var(--border); }
 
-/* ── LUXURY ITEMS ── */
+/* ── LUXE ITEMS ── */
 .luxe-item {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 10px;
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–r-sm);
-margin-bottom: 6px;
-cursor: pointer;
-transition: all .2s;
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  margin-bottom: 7px;
+  cursor: pointer;
+  transition: all .2s;
+  min-height: 44px;
 }
-.luxe-item:hover   { border-color: var(–gold-d); background: var(–gold-bg); }
-.luxe-item.owned   { border-color: var(–gold-d); }
-.luxe-item.owned::after { content: ‘✓’; color: var(–gold); font-size: 14px; margin-left: auto; }
-.luxe-icon { font-size: 22px; width: 32px; text-align: center; }
+.luxe-item:active { transform: scale(.97); }
+.luxe-item.owned { border-color: var(--gold-d); background: var(--gold-bg); }
+.luxe-icon { font-size: 24px; width: 34px; text-align: center; flex-shrink: 0; }
 .luxe-info { flex: 1; }
-.luxe-name { font-size: 11px; font-weight: 500; }
-.luxe-stats { font-size: 9px; color: var(–muted); }
-
-/* ── EVENT MODAL ── */
-.modal-overlay {
-position: fixed; inset: 0;
-background: rgba(0,0,0,.8);
-backdrop-filter: blur(8px);
-z-index: 900;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 20px;
-animation: fadeIn .2s ease;
-}
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-.modal {
-background: var(–card);
-border-radius: var(–r);
-padding: 24px 20px;
-width: 100%;
-max-width: 380px;
-border: 1px solid var(–border-h);
-animation: modalIn .25s cubic-bezier(.34,1.56,.64,1);
-position: relative;
-}
-@keyframes modalIn { from { transform: scale(.9) translateY(10px); } to { transform: scale(1) translateY(0); } }
-.modal.type-bad  { border-color: var(–ruby); }
-.modal.type-good { border-color: var(–gold-d); }
-.modal.type-info { border-color: var(–sapphire); }
-.modal-icon { font-size: 36px; margin-bottom: 12px; display: block; text-align: center; }
-.modal-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 20px;
-text-align: center;
-margin-bottom: 8px;
-}
-.modal-body { font-size: 11px; color: var(–muted); text-align: center; line-height: 1.6; margin-bottom: 6px; }
-.modal-result {
-font-size: 12px;
-text-align: center;
-padding: 8px;
-border-radius: var(–r-sm);
-margin: 12px 0;
-font-weight: 500;
-}
-.modal-result.good { background: rgba(46,204,113,.1); color: var(–emerald); }
-.modal-result.bad  { background: rgba(231,76,60,.1); color: var(–ruby); }
-.modal-result.gold { background: rgba(200,168,75,.1); color: var(–gold-l); }
-.modal-choice { display: grid; gap: 7px; margin-top: 10px; }
+.luxe-name { font-size: 11px; font-weight: 600; }
+.luxe-stats { font-size: 9px; color: var(--muted); margin-top: 2px; }
+.luxe-price { font-size: 9px; color: var(--gold); flex-shrink: 0; }
+.luxe-check { font-size: 16px; color: var(--gold); flex-shrink: 0; }
 
 /* ── TAB BAR ── */
 .tab-bar {
-position: fixed; bottom: 0; left: 0; right: 0;
-background: rgba(5,5,10,.97);
-backdrop-filter: blur(20px);
-border-top: 1px solid var(–border);
-display: flex;
-padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
-z-index: 800;
+  position: relative; z-index: 500;
+  flex-shrink: 0;
+  background: rgba(6,6,16,.95);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding: 6px 0 calc(6px + var(--safe-b));
+  padding-left: var(--safe-l);
+  padding-right: var(--safe-r);
 }
 .tab-btn {
-flex: 1;
-background: none;
-border: none;
-color: var(–muted);
-font-size: 8px;
-font-family: ‘DM Mono’, monospace;
-letter-spacing: 1px;
-text-transform: uppercase;
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 3px;
-padding: 4px 0;
-cursor: pointer;
-transition: color .2s;
-width: auto;
-margin: 0;
+  flex: 1; background: none; border: none;
+  color: var(--muted); font-size: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px; text-transform: uppercase;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 5px 0; cursor: pointer;
+  transition: color .2s; min-height: 44px;
+  position: relative;
 }
-.tab-btn:hover   { background: none; }
-.tab-btn.active  { color: var(–gold-l); }
-.tab-icon { font-size: 19px; }
-.tab-btn.active .tab-icon { filter: drop-shadow(0 0 8px var(–gold-d)); }
+.tab-btn.active { color: var(--gold-l); }
+.tab-btn.active::before {
+  content: '';
+  position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 2px; border-radius: 0 0 2px 2px;
+  background: linear-gradient(90deg, var(--gold-d), var(--gold), var(--gold-d));
+}
+.tab-icon { font-size: 20px; line-height: 1; }
+.tab-btn.active .tab-icon {
+  filter: drop-shadow(0 0 8px rgba(200,168,75,.5));
+}
 .tab-notif {
-position: absolute;
-top: 2px; right: 50%;
-transform: translateX(12px);
-background: var(–ruby);
-color: #fff;
-border-radius: 50%;
-width: 14px; height: 14px;
-font-size: 8px;
-display: flex; align-items: center; justify-content: center;
-pointer-events: none;
+  position: absolute; top: 3px; right: 50%;
+  transform: translateX(14px);
+  background: var(--ruby); color: #fff;
+  border-radius: 50%; width: 14px; height: 14px;
+  font-size: 8px; display: flex;
+  align-items: center; justify-content: center;
 }
 
-/* ── WEALTH TIER ── */
-.tier-badge {
-display: inline-flex;
-align-items: center;
-gap: 5px;
-font-size: 9px;
-padding: 2px 8px;
-border-radius: 20px;
-border: 1px solid;
+/* ── TOAST ── */
+#toastContainer {
+  position: fixed; top: calc(var(--safe-t) + 12px); left: 14px; right: 14px;
+  z-index: 9999; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
 }
-.tier-0 { border-color: var(–muted); color: var(–muted); }
-.tier-1 { border-color: var(–emerald); color: var(–emerald); }
-.tier-2 { border-color: var(–sapphire); color: var(–sapphire); }
-.tier-3 { border-color: var(–violet); color: var(–violet); }
-.tier-4 { border-color: var(–amber); color: var(–amber); }
-.tier-5 { border-color: var(–gold); color: var(–gold-l); }
+.toast {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--card-hi);
+  border: 1px solid var(--border-h);
+  border-radius: 14px;
+  padding: 10px 14px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  transform: translateY(-20px) scale(.92);
+  opacity: 0;
+  transition: all .38s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: all;
+}
+.toast.show { transform: none; opacity: 1; }
+.toast-icon { font-size: 16px; flex-shrink: 0; }
+.toast-content { flex: 1; }
+.toast-title { font-size: 11px; font-weight: 600; }
+.toast-msg { font-size: 9.5px; color: var(--text-2); margin-top: 1px; }
+.toast.success { border-left: 3px solid var(--emerald); }
+.toast.error   { border-left: 3px solid var(--ruby); }
+.toast.info    { border-left: 3px solid var(--sapphire); }
+.toast.gold    { border-left: 3px solid var(--gold); }
 
-/* ── NOTIFICATIONS DOT ── */
-.red-dot {
-display: inline-block;
-width: 6px; height: 6px;
-background: var(–ruby);
-border-radius: 50%;
-margin-left: 4px;
-vertical-align: middle;
+/* ── BOTTOM SHEET ── */
+.sheet-overlay {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: flex-end;
+  animation: fadeOverlay .25s ease both;
 }
+@keyframes fadeOverlay { from { opacity:0; } to { opacity:1; } }
+.sheet {
+  background: var(--card);
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-height: 86vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 18px calc(16px + var(--safe-b));
+  border-top: 1px solid var(--border-h);
+  animation: sheetUp .38s cubic-bezier(.34,1.26,.64,1) both;
+  box-shadow: 0 -24px 80px rgba(0,0,0,.6);
+}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
+.sheet-handle {
+  width: 38px; height: 4px;
+  background: var(--border-h); border-radius: 2px;
+  margin: 12px auto 18px;
+}
+.sheet-icon { font-size: 42px; text-align: center; display: block; margin-bottom: 10px; }
+.sheet-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 700;
+  text-align: center; margin-bottom: 8px;
+}
+.sheet-body { font-size: 11px; color: var(--text-2); text-align: center; line-height: 1.7; margin-bottom: 4px; }
+.sheet-result {
+  font-size: 12px; text-align: center;
+  padding: 10px; border-radius: var(--r-sm);
+  margin: 12px 0; font-weight: 600;
+}
+.sheet-result.good  { background: rgba(52,211,153,.1);  color: var(--emerald); }
+.sheet-result.bad   { background: rgba(248,113,113,.1); color: var(--ruby); }
+.sheet-result.gold  { background: rgba(200,168,75,.1);  color: var(--gold-l); }
+.sheet-choices { display: flex; flex-direction: column; gap: 7px; margin-top: 12px; }
+
+/* ── RETIREMENT BANNER ── */
+.retire-banner {
+  text-align: center; padding: 10px 0;
+}
+.retire-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 700;
+  color: var(--gold-l);
+}
+
+/* ── BIZ SECTION ── */
+.biz-level-display {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin: 6px 0;
+}
+.biz-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--faint); border: 1px solid var(--border);
+  transition: all .4s cubic-bezier(.34,1.56,.64,1);
+}
+.biz-dot.active {
+  background: var(--gold); border-color: var(--gold);
+  box-shadow: 0 0 10px var(--gold-d);
+}
+
+/* ── SUCCESSION ── */
+.succession-viz {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  margin-bottom: 8px;
+}
+.child-avatar { font-size: 18px; }
+.child-info { flex: 1; }
+
+/* ── PARTICLES (confetti) ── */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  animation: particleFly 1.8s ease-out forwards;
+}
+@keyframes particleFly {
+  0%   { opacity:1; transform: translate(0,0) rotate(0deg); }
+  100% { opacity:0; transform: var(--tx,translate(60px,-200px)) rotate(720deg); }
+}
+
+/* ── HAPTIC ANIMATION ── */
+@keyframes hapticPulse {
+  0%,100% { transform: scale(1); }
+  40% { transform: scale(.95); }
+  70% { transform: scale(1.02); }
+}
+.haptic { animation: hapticPulse .2s ease both; }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 12px 0;
+}
+
+/* ── QUICK STAT ROW ── */
+.quick-stat {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--faint);
+}
+.quick-stat:last-child { border-bottom: none; }
+.quick-stat-lbl { font-size: 9px; color: var(--muted); }
+.quick-stat-val { font-size: 11px; font-weight: 600; }
+
+/* ── ACHIEVEMENT POP ── */
+.achievement {
+  display: flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--gold-bg), #201810);
+  border: 1px solid var(--gold-d);
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 0 30px var(--gold-glow);
+}
+.achievement-icon { font-size: 22px; flex-shrink: 0; }
+.achievement-title { font-size: 10px; color: var(--gold); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.achievement-name { font-size: 13px; font-weight: 600; color: var(--gold-l); }
+
+/* ── SCROLLBAR HIDE ── */
+.scroll-pane::-webkit-scrollbar { display: none; }
+
+/* ── ANIMATIONS ── */
+@keyframes bounceIn {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.08); }
+  70%  { transform: scale(0.96); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.bounce-in { animation: bounceIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+
+/* ── IPO BADGE ── */
+.ipo-badge {
+  display: inline-block; font-size: 8px;
+  padding: 1px 7px; border-radius: 4px;
+  background: rgba(96,165,250,.15);
+  color: var(--sapphire);
+  border: 1px solid rgba(96,165,250,.3);
+  margin-left: 6px;
+}
+
+/* Safe area padding helper */
+.pad-safe-l { padding-left: var(--safe-l); }
+.pad-safe-r { padding-right: var(--safe-r); }
 </style>
-
 </head>
 <body>
 
-<!-- ═══════════════════ VIEW: BILAN ═══════════════════ -->
+<div id="appRoot">
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer"></div>
 
-<div id="view-home" class="page view active">
+  <!-- SCROLL PANE wraps all views -->
+  <div class="scroll-pane" id="scrollPane">
 
-  <div class="dynasty-hero">
-    <div class="gen-crest">
-      <span class="crest-icon">⚜️</span>
-      <span class="crest-text" id="genBadge">Génération I · Fondateur</span>
-    </div>
-    <div class="nw-label">Patrimoine Net Dynastique</div>
-    <div class="nw-value" id="nwVal">0 €</div>
-    <div id="nwDelta" class="nw-delta pos">— €/mois</div>
-    <div class="macro-bar">
-      <div class="macro-led" id="macroLed"></div>
-      <span id="macroTxt">—</span>
-      <span>·</span>
-      <span id="tierBadge" class="tier-badge tier-0">◆ Roturier</span>
-    </div>
-  </div>
+    <!-- ═══════════════════ VIEW: BILAN ═══════════════════ -->
+    <div id="view-home" class="page view active">
 
-  <div class="stats-row s3">
-    <div class="stat">
-      <div class="stat-lbl">Liquidités</div>
-      <div class="stat-val c-gold" id="courant">0 €</div>
-    </div>
-    <div class="stat">
-      <div class="stat-lbl">Cash Flow</div>
-      <div class="stat-val" id="cashflow">0 €</div>
-    </div>
-    <div class="stat">
-      <div class="stat-lbl">Passif</div>
-      <div class="stat-val c-red" id="dettes">0 €</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="sec-label">💫 Profil</div>
-    <div class="stats-row s2" style="margin-bottom:10px;">
-      <div class="stat">
-        <div class="stat-lbl">Âge</div>
-        <div class="stat-val"><span id="ageA">18</span> ans</div>
-        <div class="stat-sub" id="statutVie">Salarié</div>
-      </div>
-      <div class="stat">
-        <div class="stat-lbl">Réputation</div>
-        <div class="stat-val c-gold" id="repVal">0</div>
-        <div class="bar-wrap">
-          <div class="bar-track"><div id="barRep" class="bar-fill" style="background:var(--gold);width:0%"></div></div>
+      <div class="hero">
+        <div class="dynasty-badge">
+          <span class="icon">⚜️</span>
+          <span class="text" id="genBadge">Génération I · Fondateur</span>
         </div>
-        <div class="stat-sub">/ 500</div>
-      </div>
-    </div>
-    <div class="stats-row s2">
-      <div class="stat">
-        <div class="stat-lbl">Santé Mentale</div>
-        <div class="stat-val" id="bonheurVal">100%</div>
-        <div class="bar-wrap">
-          <div class="bar-track"><div id="barBonheur" class="bar-fill" style="background:var(--emerald);width:100%"></div></div>
+        <div class="nw-label">Patrimoine Net Dynastique</div>
+        <span class="nw-amount serif" id="nwVal">0 €</span>
+        <div id="nwCf" class="nw-cf pos">— €/mois</div>
+        <div class="macro-row">
+          <div class="macro-led" id="macroLed"></div>
+          <span id="macroTxt" style="color:var(--muted)">—</span>
+          <span style="color:var(--faint)">·</span>
+          <span id="tierBadge" class="tier-badge tier-0">◆ Roturier</span>
         </div>
       </div>
-      <div class="stat">
-        <div class="stat-lbl">Santé Physique</div>
-        <div class="stat-val" id="santeVal">100%</div>
-        <div class="bar-wrap">
-          <div class="bar-track"><div id="barSante" class="bar-fill" style="background:var(--sapphire);width:100%"></div></div>
+
+      <div class="stats-row s3">
+        <div class="stat">
+          <div class="stat-lbl">Liquidités</div>
+          <div class="stat-val c-gold" id="courant">0 €</div>
+        </div>
+        <div class="stat">
+          <div class="stat-lbl">Cash Flow</div>
+          <div class="stat-val c-green" id="cashflow">+0 €</div>
+        </div>
+        <div class="stat">
+          <div class="stat-lbl">Passif</div>
+          <div class="stat-val c-red" id="dettes">0 €</div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="sec-label">📜 Registre Dynastique</div>
-    <div id="log"></div>
-  </div>
+      <div class="card">
+        <div class="section-label">👤 Profil Dynastique</div>
+        <div class="stats-row s2">
+          <div class="stat">
+            <div class="stat-lbl">Âge</div>
+            <div class="stat-val"><span id="ageA">18</span> ans</div>
+            <div class="stat-sub" id="statutVie">Salarié</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Réputation</div>
+            <div class="stat-val c-gold" id="repVal">0</div>
+            <div class="bar-wrap"><div class="bar-track"><div id="barRep" class="bar-fill" style="background:var(--gold);width:0%"></div></div></div>
+            <div class="stat-sub">/ 500 pts</div>
+          </div>
+        </div>
 
-</div>
-
-<!-- ═══════════════════ VIEW: MARCHÉS ═══════════════════ -->
-
-<div id="view-invest" class="page view">
-
-  <div class="card">
-    <div class="sec-label">📈 Indice Boursier Mondial</div>
-    <div id="chartWrap">
-      <canvas id="stockCanvas"></canvas>
-      <div class="chart-overlay">
-        <div class="chart-price c-gold" id="chartPrice">—</div>
-        <div class="chart-delta" id="chartDelta">—</div>
+        <!-- Health rings -->
+        <div class="ring-row">
+          <div class="ring-wrap">
+            <svg class="ring-svg" width="62" height="62" viewBox="0 0 62 62">
+              <circle class="ring-bg" cx="31" cy="31" r="24"/>
+              <circle id="ringMental" class="ring-fill" cx="31" cy="31" r="24"
+                stroke="var(--emerald)"
+                stroke-dasharray="150.8"
+                stroke-dashoffset="0"/>
+            </svg>
+            <div class="ring-val c-green" id="bonheurVal">100%</div>
+            <div class="ring-lbl">Mental</div>
+          </div>
+          <div class="ring-wrap">
+            <svg class="ring-svg" width="62" height="62" viewBox="0 0 62 62">
+              <circle class="ring-bg" cx="31" cy="31" r="24"/>
+              <circle id="ringSante" class="ring-fill" cx="31" cy="31" r="24"
+                stroke="var(--sapphire)"
+                stroke-dasharray="150.8"
+                stroke-dashoffset="0"/>
+            </svg>
+            <div class="ring-val c-blue" id="santeVal">100%</div>
+            <div class="ring-lbl">Physique</div>
+          </div>
+        </div>
       </div>
-      <div class="chart-overlay-r">
-        <div class="chart-label">ETF WORLD</div>
-        <div class="chart-label" id="chartRange">60 mois</div>
+
+      <div class="card">
+        <div class="section-label">📜 Registre Dynastique</div>
+        <div id="log"></div>
       </div>
-    </div>
-    <div class="stats-row s3" style="margin-top:4px;">
-      <div class="stat">
-        <div class="stat-lbl">Vos Actions</div>
-        <div class="stat-val" id="etfVal">0 €</div>
+
+    </div><!-- /view-home -->
+
+    <!-- ═══════════════════ VIEW: MARCHÉS ═══════════════════ -->
+    <div id="view-invest" class="page view">
+
+      <div class="card">
+        <div class="section-label">📈 Indice Boursier Mondial</div>
+        <div class="chart-container" id="chartWrap">
+          <canvas id="stockCanvas"></canvas>
+          <div class="chart-crosshair" id="chartCrosshair"></div>
+          <div class="chart-crosshair-dot" id="chartDot"></div>
+          <div class="chart-tooltip" id="chartTooltip"></div>
+          <div class="chart-overlay-l">
+            <div class="chart-price c-gold" id="chartPrice">—</div>
+            <div class="chart-delta" id="chartDelta">—</div>
+          </div>
+          <div class="chart-overlay-r">
+            <div class="chart-tag">ETF WORLD</div>
+            <div class="chart-tag" id="chartPeriod">60 mois</div>
+          </div>
+        </div>
+        <div class="stats-row s3">
+          <div class="stat">
+            <div class="stat-lbl">Vos Actions</div>
+            <div class="stat-val" id="etfVal">0 €</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Perf.</div>
+            <div class="stat-val" id="etfPerf">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Tendance</div>
+            <div class="stat-val" id="tendance">—</div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="G.investir('etf',5000)">+ 5k€ Actions</button>
+          <button class="btn" onclick="G.vendre('etf',5000)">− 5k€ Actions</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="G.investir('etf',25000)">+ 25k€ Actions</button>
+          <button class="btn" onclick="G.vendre('etf',25000)">− 25k€ Actions</button>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-lbl">Perf. Indice</div>
-        <div class="stat-val" id="etfPerf">—</div>
+
+      <div class="card">
+        <div class="section-label">🏦 Épargne Sécurisée</div>
+        <div class="quick-stat">
+          <span class="quick-stat-lbl">Fonds Euro · 3.2% / an garantis</span>
+          <span class="quick-stat-val c-green" id="livretVal">0 €</span>
+        </div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn btn-gold" onclick="G.investir('livret',5000)">+ 5k€</button>
+          <button class="btn" onclick="G.vendre('livret',5000)">− 5k€</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="G.investir('livret',20000)">+ 20k€</button>
+          <button class="btn" onclick="G.vendre('livret',20000)">− 20k€</button>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-lbl">Tendance</div>
-        <div class="stat-val" id="tendance">—</div>
+
+      <div class="card">
+        <div class="section-label">₿ Crypto-Actifs</div>
+        <div class="quick-stat">
+          <span class="quick-stat-lbl">Portfolio Crypto · Très Volatil</span>
+          <span class="quick-stat-val c-amber" id="cryptoVal">0 €</span>
+        </div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn" onclick="G.investir('crypto',5000)">+ 5k€ Crypto</button>
+          <button class="btn" onclick="G.vendre('crypto',5000)">− 5k€ Crypto</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="G.investir('crypto',20000)">+ 20k€ Crypto</button>
+          <button class="btn" onclick="G.vendre('crypto',20000)">− 20k€ Crypto</button>
+        </div>
       </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-g" onclick="G.investir('etf',5000)">+ 5k€ Actions</button>
-      <button class="btn" onclick="G.vendre('etf',5000)">− 5k€ Actions</button>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-g" onclick="G.investir('etf',25000)">+ 25k€ Actions</button>
-      <button class="btn" onclick="G.vendre('etf',25000)">− 25k€ Actions</button>
-    </div>
+
+      <div class="card">
+        <div class="section-label">🏢 Immobilier</div>
+        <div class="stats-row s3">
+          <div class="stat">
+            <div class="stat-lbl">Lots</div>
+            <div class="stat-val c-gold" id="nbApparts">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Rente</div>
+            <div class="stat-val c-green" id="renteImmo">+0€/m</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Prix Marché</div>
+            <div class="stat-val" id="prixImmo">—</div>
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="G.acheterImmo()">Acquérir un Lot
+          <span class="btn-sub">Apport 20k€ + crédit immobilier</span>
+        </button>
+        <div class="btn-row">
+          <button class="btn" onclick="G.vendreImmo()">Vendre un Lot</button>
+          <button class="btn btn-red" onclick="G.rembourserDette()">Purger 10k€ dettes</button>
+        </div>
+      </div>
+
+    </div><!-- /view-invest -->
+
+    <!-- ═══════════════════ VIEW: AFFAIRES ═══════════════════ -->
+    <div id="view-biz" class="page view">
+
+      <!-- Retraite -->
+      <div id="retraiteBanner" style="display:none;" class="card gold">
+        <div class="section-label">🏖️ Retraite Dorée</div>
+        <div class="retire-banner">
+          <div class="retire-amount" id="pensionTxt">0 €/mois</div>
+          <div style="font-size:9px;color:var(--muted);margin-top:6px;">Revenus passifs perpétuels · Vous l'avez mérité</div>
+        </div>
+      </div>
+
+      <!-- Carrière -->
+      <div class="card" id="sectionCarriere">
+        <div class="section-label">💼 Carrière</div>
+        <div id="careerTree"></div>
+        <div class="divider"></div>
+        <div class="btn-row">
+          <button class="btn" onclick="G.payerFormation()">📚 Formation (5k€)
+            <span class="btn-sub" id="studySubLabel">Niveau d'études : 0/6</span>
+          </button>
+          <button class="btn btn-gold" onclick="G.demanderPromotion()">🆙 Demander Promotion</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+          <span class="stat-lbl">Études :</span>
+          <div class="pip-row" id="pipRow"></div>
+        </div>
+      </div>
+
+      <!-- Business -->
+      <div class="card gold" id="sectionBusiness" style="display:none;">
+        <div class="section-label">👑 Empire Privé</div>
+        <div class="quick-stat">
+          <span class="quick-stat-lbl">Holding Niveau</span>
+          <span class="quick-stat-val c-gold" id="bizLevel">1</span>
+        </div>
+        <div class="quick-stat">
+          <span class="quick-stat-lbl">Bénéfices mensuels</span>
+          <span class="quick-stat-val c-green" id="bizRev">0 €/m</span>
+        </div>
+        <div class="biz-level-display" id="bizDots"></div>
+        <div class="divider"></div>
+        <button class="btn btn-gold" onclick="G.ameliorerBiz()">🚀 Levée de Fonds — <span id="coutBiz">20k€</span>
+          <span class="btn-sub">Développement holding · +bénéfices</span>
+        </button>
+        <button class="btn btn-blue" id="btnIPO" onclick="G.lancerIPO()">📊 Introduction en Bourse (IPO) · Niv. 5+
+          <span class="btn-sub">200k€ requis · ×2.2 valorisation</span>
+        </button>
+      </div>
+
+      <button class="btn btn-gold" id="btnLancerBiz" onclick="G.lancerBiz()">⚡ Fonder une Société — 100k€
+        <span class="btn-sub">Devenez entrepreneur · Revenus illimités</span>
+      </button>
+
+      <!-- Réseau -->
+      <div class="card">
+        <div class="section-label">🤝 Réseau d'Influence</div>
+        <div id="networkList"></div>
+      </div>
+
+      <!-- Descendance -->
+      <div class="card">
+        <div class="section-label">👨‍👩‍👧 Succession Dynastique</div>
+        <div id="successionList"></div>
+        <div class="stats-row s2" style="margin-bottom:10px;">
+          <div class="stat">
+            <div class="stat-lbl">Héritiers</div>
+            <div class="stat-val" id="nbEnfants">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Droits Succession</div>
+            <div class="stat-val c-red" id="taxSuccession">30%</div>
+          </div>
+        </div>
+        <button class="btn" onclick="G.avoirEnfant()">👶 Avoir un Enfant
+          <span class="btn-sub">Coût : −500 €/mois</span>
+        </button>
+        <button class="btn btn-gold" onclick="G.creerFiducie()">📜 Créer une Fiducie Familiale — 50k€
+          <span class="btn-sub">Réduction des droits de −10%</span>
+        </button>
+      </div>
+
+    </div><!-- /view-biz -->
+
+    <!-- ═══════════════════ VIEW: LUXE ═══════════════════ -->
+    <div id="view-shop" class="page view">
+
+      <div class="card">
+        <div class="section-label">💎 Actifs de Prestige</div>
+        <div style="font-size:9.5px;color:var(--muted);margin-bottom:14px;line-height:1.7;">
+          Réduit le stress mensuel · Augmente la réputation · Frais d'entretien inclus
+        </div>
+        <div id="luxeList"></div>
+        <div class="divider"></div>
+        <div class="stats-row s2">
+          <div class="stat">
+            <div class="stat-lbl">Bonus Stress</div>
+            <div class="stat-val c-gold" id="bonusLuxe">−0/mois</div>
+          </div>
+          <div class="stat">
+            <div class="stat-lbl">Entretien</div>
+            <div class="stat-val c-red" id="fraisLuxe">0 €/m</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-label">🩺 Soins & Bien-être</div>
+        <button class="btn" onclick="G.soin(3000,'bonheur',20)">🧘 Retraite Méditative — 3k€
+          <span class="btn-sub">+20 Santé Mentale</span>
+        </button>
+        <button class="btn" onclick="G.soin(15000,'sante',25)">🏥 Clinique Privée — 15k€
+          <span class="btn-sub">+25 Santé Physique</span>
+        </button>
+        <button class="btn" onclick="G.soin(8000,'both',15)">🌴 Vacances Grand Luxe — 8k€
+          <span class="btn-sub">+15 Mental & Physique</span>
+        </button>
+        <button class="btn btn-blue" onclick="G.soin(50000,'both',40)">🛁 Cure de Rajeunissement — 50k€
+          <span class="btn-sub">+40 Mental & Physique · Résultats exceptionnels</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="section-label">⚙️ Administration</div>
+        <div class="quick-stat"><span class="quick-stat-lbl">Mois joués</span><span class="quick-stat-val" id="moisTotal">0</span></div>
+        <div class="quick-stat"><span class="quick-stat-lbl">Génération actuelle</span><span class="quick-stat-val c-gold" id="genNum">I</span></div>
+        <div class="quick-stat"><span class="quick-stat-lbl">Record patrimoine</span><span class="quick-stat-val" id="peakNW">0 €</span></div>
+        <div class="divider"></div>
+        <button class="btn btn-red" onclick="G.reset()">💣 Détruire la Dynastie — Reset Total
+          <span class="btn-sub">Action irréversible · Perte totale</span>
+        </button>
+      </div>
+
+    </div><!-- /view-shop -->
+
+  </div><!-- /scrollPane -->
+
+  <!-- TAB BAR -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" id="tab-home" onclick="UI.tab('home',this)">
+      <span class="tab-icon">🏦</span>Bilan
+    </button>
+    <button class="tab-btn" id="tab-invest" onclick="UI.tab('invest',this)">
+      <span class="tab-icon">📈</span>Marchés
+    </button>
+    <button class="tab-btn" id="tab-biz" onclick="UI.tab('biz',this)">
+      <span class="tab-icon">💼</span>Affaires
+    </button>
+    <button class="tab-btn" id="tab-shop" onclick="UI.tab('shop',this)">
+      <span class="tab-icon">💎</span>Luxe
+    </button>
   </div>
-
-  <div class="card">
-    <div class="sec-label">🏦 Épargne Fonds Euro</div>
-    <div class="stat" style="margin-bottom:9px;">
-      <div class="stat-lbl">Capital Sécurisé · 3% / an garanti</div>
-      <div class="stat-val c-green" id="livretVal">0 €</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-g" onclick="G.investir('livret',5000)">+ 5k€</button>
-      <button class="btn" onclick="G.vendre('livret',5000)">− 5k€</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="sec-label">₿ Crypto-actifs</div>
-    <div class="stat" style="margin-bottom:9px;">
-      <div class="stat-lbl">Portfolio Crypto · Très Volatil · Risque Hack</div>
-      <div class="stat-val c-amber" id="cryptoVal">0 €</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn" onclick="G.investir('crypto',5000)">+ 5k€ Crypto</button>
-      <button class="btn" onclick="G.vendre('crypto',5000)">− 5k€ Crypto</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="sec-label">🏢 Immobilier</div>
-    <div class="stats-row s3" style="margin-bottom:9px;">
-      <div class="stat">
-        <div class="stat-lbl">Lots</div>
-        <div class="stat-val c-gold" id="nbApparts">0</div>
-      </div>
-      <div class="stat">
-        <div class="stat-lbl">Rente</div>
-        <div class="stat-val c-green" id="renteImmo">+0€/m</div>
-      </div>
-      <div class="stat">
-        <div class="stat-lbl">Prix Marché</div>
-        <div class="stat-val" id="prixImmo">—</div>
-      </div>
-    </div>
-    <button class="btn btn-g" onclick="G.acheterImmo()">Acquérir un Lot (apport 20k€)</button>
-    <div class="btn-row">
-      <button class="btn" onclick="G.vendreImmo()">Vendre un Lot</button>
-      <button class="btn btn-r" onclick="G.rembourserDette()">Purger 10k€ dettes</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- ═══════════════════ VIEW: AFFAIRES ═══════════════════ -->
-
-<div id="view-biz" class="page view">
-
-  <!-- Retraite -->
-
-  <div id="retraiteBanner" style="display:none;" class="card gold-border">
-    <div class="shimmer"></div>
-    <div class="sec-label">🏖️ Retraite Dorée</div>
-    <div class="nw-value c-gold" style="font-size:26px;" id="pensionTxt">0 €/mois</div>
-    <div class="stat-sub" style="margin-top:4px;">Vous profitez d'une retraite bien méritée.</div>
-  </div>
-
-  <!-- Carrière -->
-
-  <div class="card" id="sectionCarriere">
-    <div class="sec-label">💼 Carrière</div>
-    <div id="careerTree"></div>
-    <div class="btn-row" style="margin-top:10px;">
-      <button class="btn" onclick="G.payerFormation()">Formation (5k€)</button>
-      <button class="btn btn-g" onclick="G.demanderPromotion()">Demander Promotion</button>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-      <span class="stat-lbl" style="width:60px;">Études :</span>
-      <div class="pip-row" id="pipRow"></div>
-    </div>
-  </div>
-
-  <!-- Business -->
-
-  <div class="card gold-border" id="sectionBusiness" style="display:none;">
-    <div class="shimmer"></div>
-    <div class="sec-label">👑 Empire Privé</div>
-    <div class="stats-row s2" style="margin-bottom:9px;">
-      <div class="stat">
-        <div class="stat-lbl">Niveau Holding</div>
-        <div class="stat-val c-gold" id="bizLevel">1</div>
-      </div>
-      <div class="stat">
-        <div class="stat-lbl">Bénéfices</div>
-        <div class="stat-val c-green" id="bizRev">0 €/m</div>
-      </div>
-    </div>
-    <button class="btn btn-g" onclick="G.ameliorerBiz()">Levée de Fonds (−<span id="coutBiz">20k</span>€)</button>
-    <button class="btn btn-b" id="btnIPO" onclick="G.lancerIPO()">Introduire en Bourse (IPO) · Niv. 5+</button>
-  </div>
-
-<button class="btn btn-g" id="btnLancerBiz" onclick="G.lancerBiz()">⚡ Fonder une Société (−100k€)</button>
-
-  <!-- Réseau Social -->
-
-  <div class="card">
-    <div class="sec-label">🤝 Réseau & Contacts</div>
-    <div id="networkList"></div>
-  </div>
-
-  <!-- Descendance -->
-
-  <div class="card">
-    <div class="sec-label">👨‍👩‍👧 Descendance & Succession</div>
-    <div class="stats-row s2" style="margin-bottom:9px;">
-      <div class="stat">
-        <div class="stat-lbl">Héritiers</div>
-        <div class="stat-val" id="nbEnfants">0</div>
-      </div>
-      <div class="stat">
-        <div class="stat-lbl">Droits Succession</div>
-        <div class="stat-val c-red" id="taxSuccession">30%</div>
-      </div>
-    </div>
-    <button class="btn" onclick="G.avoirEnfant()">Avoir un enfant (−500€/mois)</button>
-    <button class="btn btn-g" onclick="G.creerFiducie()">Fiducie Familiale (−50k€) → −10% droits</button>
-  </div>
-
-</div>
-
-<!-- ═══════════════════ VIEW: LUXE ═══════════════════ -->
-
-<div id="view-shop" class="page view">
-
-  <div class="card">
-    <div class="sec-label">💎 Actifs de Prestige</div>
-    <p style="font-size:10px; color:var(--muted); margin-bottom:14px; line-height:1.6;">Réduit votre stress · Augmente votre réputation · Frais mensuels</p>
-    <div id="luxeList"></div>
-    <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
-      <div>
-        <div class="stat-lbl">Bonus Stress Permanent</div>
-        <div class="c-gold" id="bonusLuxe">−0 /mois</div>
-      </div>
-      <div style="text-align:right;">
-        <div class="stat-lbl">Frais Entretien</div>
-        <div class="c-red" id="fraisLuxe">0 €/m</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="sec-label">🩺 Soins & Bien-être</div>
-    <button class="btn" onclick="G.soin(3000,'bonheur',20)">🧘 Retraite Méditative — 3k€ · +20 Mental</button>
-    <button class="btn" onclick="G.soin(15000,'sante',25)">🏥 Clinique Privée — 15k€ · +25 Physique</button>
-    <button class="btn" onclick="G.soin(8000,'both',15)">🌴 Vacances Grand Luxe — 8k€ · +15 Mental & Physique</button>
-    <button class="btn btn-b" onclick="G.soin(50000,'both',40)">🛁 Cure de Rajeunissement — 50k€ · +40 Les deux</button>
-  </div>
-
-  <div class="card">
-    <div class="sec-label">⚙️ Administration</div>
-    <button class="btn btn-r" onclick="G.reset()">💣 Détruire la Dynastie — Reset Total</button>
-  </div>
-
-</div>
-
-<!-- TAB BAR -->
-
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="UI.tab('home',this)">
-    <span class="tab-icon">🏦</span>Bilan
-  </button>
-  <button class="tab-btn" onclick="UI.tab('invest',this)">
-    <span class="tab-icon">📈</span>Marchés
-  </button>
-  <button class="tab-btn" onclick="UI.tab('biz',this)">
-    <span class="tab-icon">💼</span>Affaires
-  </button>
-  <button class="tab-btn" onclick="UI.tab('shop',this)">
-    <span class="tab-icon">💎</span>Luxe
-  </button>
-</div>
+</div><!-- /appRoot -->
 
 <script>
 'use strict';
+
 /* ═══════════════════════════════════════════════════
    HELPERS
 ═══════════════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
-const fmt = n => {
+const fmt = (n, brief=false) => {
   let a = Math.abs(n), s = n < 0 ? '−' : '';
-  if (a >= 1e9) return s + (a/1e9).toFixed(2) + ' Md€';
-  if (a >= 1e6) return s + (a/1e6).toFixed(2) + ' M€';
-  if (a >= 1e3) return s + Math.floor(a/1e3) + ' k€';
+  if (brief) {
+    if (a >= 1e9) return s + (a/1e9).toFixed(1) + ' Md€';
+    if (a >= 1e6) return s + (a/1e6).toFixed(2) + ' M€';
+    if (a >= 1e3) return s + (a/1e3).toFixed(0) + 'k€';
+    return s + Math.floor(a) + '€';
+  }
+  if (a >= 1e9) return s + (a/1e9).toFixed(3) + ' Md€';
+  if (a >= 1e6) return s + (a/1e6).toFixed(3) + ' M€';
+  if (a >= 1e3) return s + (a/1e3).toFixed(0) + ' k€';
   return s + Math.floor(a).toLocaleString('fr-FR') + ' €';
 };
-const clamp = (v,min,max) => Math.max(min, Math.min(max, v));
-const rnd   = (min,max)   => min + Math.random() * (max - min);
-const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
-const SAVE_KEY = 'banquedynastie_v8';
+const clamp   = (v,min,max) => Math.max(min, Math.min(max, v));
+const rnd     = (min,max)   => min + Math.random() * (max - min);
+const roman   = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+const SAVE_KEY = 'dynastiev9_final';
+
+/* ═══════════════════════════════════════════════════
+   TOAST SYSTEM
+═══════════════════════════════════════════════════ */
+const Toast = {
+  queue: [],
+  show(title, msg='', type='info', dur=3200) {
+    const icons = { success:'✅', error:'❌', gold:'⭐', info:'ℹ️', warning:'⚠️' };
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.innerHTML = `<div class="toast-icon">${icons[type]||'ℹ️'}</div>
+      <div class="toast-content">
+        <div class="toast-title">${title}</div>
+        ${msg ? `<div class="toast-msg">${msg}</div>` : ''}
+      </div>`;
+    $('toastContainer').appendChild(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 450);
+    }, dur);
+  }
+};
 
 /* ═══════════════════════════════════════════════════
    GAME DATA
 ═══════════════════════════════════════════════════ */
 const CAREERS = [
-  { id:'stagiaire',  label:'Stagiaire',          emoji:'🧑‍💼', salary:1400,  studyReq:0 },
-  { id:'employe',    label:'Employé Confirmé',   emoji:'📋', salary:2200,  studyReq:1 },
-  { id:'cadre',      label:'Cadre',              emoji:'📊', salary:4500,  studyReq:2 },
-  { id:'directeur',  label:'Directeur',          emoji:'🏢', salary:9000,  studyReq:3 },
-  { id:'vp',         label:'VP Exécutif',        emoji:'👔', salary:20000, studyReq:4 },
-  { id:'clevel',     label:'C-Level',            emoji:'🎩', salary:45000, studyReq:5 },
-  { id:'conseil',    label:'Conseiller Élite',   emoji:'👑', salary:90000, studyReq:6 },
+  { id:'stagiaire', label:'Stagiaire',         emoji:'🧑‍💼', salary:1400,  studyReq:0 },
+  { id:'employe',   label:'Employé Confirmé',  emoji:'📋', salary:2400,  studyReq:1 },
+  { id:'cadre',     label:'Cadre',             emoji:'📊', salary:5000,  studyReq:2 },
+  { id:'directeur', label:'Directeur',         emoji:'🏢', salary:10000, studyReq:3 },
+  { id:'vp',        label:'VP Exécutif',       emoji:'👔', salary:22000, studyReq:4 },
+  { id:'clevel',    label:'C-Level',           emoji:'🎩', salary:50000, studyReq:5 },
+  { id:'conseil',   label:'Conseiller Élite',  emoji:'👑', salary:100000,studyReq:6 },
 ];
 
 const NETWORK_CONTACTS = [
-  { id:'banker',    name:'Alexandre Moreau',   role:'Directeur de Banque',    emoji:'🏦', bonus:'Taux crédit −1%',     cost:10000, repReq:0,   effect: s => { s.debtRate = Math.max(0.02, (s.debtRate||0.05) - 0.01); } },
-  { id:'notaire',   name:'Maître Dupont',      role:'Notaire Patrimonial',    emoji:'⚖️', bonus:'Succession −5%',       cost:15000, repReq:30,  effect: s => { s.taxSuccession = Math.max(5, s.taxSuccession - 5); } },
-  { id:'analyste',  name:'Sofia Chen',         role:'Analyste Marchés',       emoji:'📊', bonus:'ETF +0.5%/mois',       cost:8000,  repReq:20,  effect: s => { s.etfBonus = (s.etfBonus||0) + 0.005; } },
-  { id:'ministre',  name:'Henri de Valois',    role:'Ministre (retraité)',     emoji:'🏛️', bonus:'Réputation +2/mois',   cost:50000, repReq:100, effect: s => { s.repBonus = (s.repBonus||0) + 2; } },
-  { id:'medecin',   name:'Dr. Isabelle Noir',  role:'Médecin Personnel',      emoji:'🩺', bonus:'Santé −30% déclin',    cost:20000, repReq:0,   effect: s => { s.healthBonus = (s.healthBonus||0) + 0.3; } },
-  { id:'architecte',name:'Marco Ferretti',     role:'Architecte Star',        emoji:'🏰', bonus:'Immo +5% rente',       cost:30000, repReq:60,  effect: s => { s.immoRentBonus = (s.immoRentBonus||1) * 1.05; } },
+  { id:'banker',     name:'Alexandre Moreau',  role:'Directeur de Banque Privée',  emoji:'🏦', bonus:'Taux crédit −1%',       cost:10000, repReq:0,   effect: s => { s.debtRate = Math.max(0.02, s.debtRate - 0.01); } },
+  { id:'notaire',    name:'Maître Dupont',     role:'Notaire Patrimonial',         emoji:'⚖️', bonus:'Succession −5%',         cost:15000, repReq:30,  effect: s => { s.taxSuccession = Math.max(5, s.taxSuccession - 5); } },
+  { id:'analyste',   name:'Sofia Chen',        role:'Analyste Quantitative',       emoji:'📊', bonus:'ETF +0.5%/mois',         cost:8000,  repReq:20,  effect: s => { s.etfBonus += 0.005; } },
+  { id:'ministre',   name:'Henri de Valois',   role:'Ministre (retraité)',          emoji:'🏛️', bonus:'Réputation +2/mois',     cost:50000, repReq:100, effect: s => { s.repBonus += 2; } },
+  { id:'medecin',    name:'Dr. Isabelle Noir', role:'Médecin Personnel',           emoji:'🩺', bonus:'Déclin santé −30%',      cost:20000, repReq:0,   effect: s => { s.healthBonus += 0.3; } },
+  { id:'architecte', name:'Marco Ferretti',    role:'Architecte Star International',emoji:'🏰', bonus:'Rente immo +5%',        cost:30000, repReq:60,  effect: s => { s.immoRentBonus *= 1.05; } },
+  { id:'fiscaliste', name:'Catherine Blanc',   role:'Avocate Fiscale',             emoji:'📑', bonus:'Impôts −8% global',      cost:40000, repReq:80,  effect: s => { s.taxDiscount = (s.taxDiscount||0) + 0.08; } },
+  { id:'journaliste',name:'Marc Lebrun',       role:'Journaliste Économique',       emoji:'📰', bonus:'Réputation ×1.5x gains', cost:25000, repReq:50,  effect: s => { s.repMultiplier = (s.repMultiplier||1) * 1.5; } },
 ];
 
 const LUXE_ITEMS = [
-  { id:'montre',   name:'Montre Haute Horlogerie', emoji:'⌚', price:20000,   maint:50,    stress:1,  rep:5   },
-  { id:'cave',     name:'Cave à Vins Grand Cru',   emoji:'🍷', price:35000,   maint:200,   stress:1,  rep:8   },
-  { id:'art',      name:'Collection d\'Art',       emoji:'🖼️', price:100000,  maint:500,   stress:2,  rep:20  },
-  { id:'supercar', name:'Supercar de Course',      emoji:'🏎️', price:250000,  maint:1000,  stress:3,  rep:25  },
-  { id:'cheval',   name:'Écurie de Course',        emoji:'🐎', price:500000,  maint:3000,  stress:2,  rep:35  },
-  { id:'yacht',    name:'Yacht de Prestige',       emoji:'🛥️', price:3000000, maint:15000, stress:8,  rep:60  },
-  { id:'jet',      name:'Jet Privé',               emoji:'✈️', price:8000000, maint:50000, stress:10, rep:90  },
-  { id:'monaco',   name:'Villa Monaco',            emoji:'🏰', price:15000000,maint:30000, stress:5,  rep:120 },
+  { id:'montre',   name:'Montre Haute Horlogerie', emoji:'⌚', price:20000,    maint:50,    stress:1,  rep:5   },
+  { id:'cave',     name:'Cave à Vins Grand Cru',   emoji:'🍷', price:35000,    maint:200,   stress:1,  rep:8   },
+  { id:'art',      name:'Collection d\'Art',       emoji:'🖼️', price:100000,   maint:500,   stress:2,  rep:20  },
+  { id:'supercar', name:'Supercar de Course',      emoji:'🏎️', price:250000,   maint:1000,  stress:3,  rep:25  },
+  { id:'cheval',   name:'Écurie de Prestige',      emoji:'🐎', price:500000,   maint:3000,  stress:2,  rep:35  },
+  { id:'yacht',    name:'Yacht de Prestige',       emoji:'🛥️', price:3000000,  maint:15000, stress:8,  rep:60  },
+  { id:'jet',      name:'Jet Privé',               emoji:'✈️', price:8000000,  maint:50000, stress:10, rep:90  },
+  { id:'monaco',   name:'Villa Monaco',            emoji:'🏰', price:15000000, maint:30000, stress:5,  rep:120 },
+];
+
+const ACHIEVEMENTS = [
+  { id:'first100k', label:'Premier Palier',     req: s => CALC.netWorth()>=100000,    icon:'💰' },
+  { id:'first1M',   label:'Millionnaire',        req: s => CALC.netWorth()>=1000000,   icon:'💎' },
+  { id:'first10M',  label:'Dizaine de Millions', req: s => CALC.netWorth()>=10000000,  icon:'🏆' },
+  { id:'first100M', label:'Centième Million',    req: s => CALC.netWorth()>=100000000, icon:'👑' },
+  { id:'bizOwner',  label:'Entrepreneur',        req: s => s.isEntrepreneur,           icon:'⚡' },
+  { id:'ipo',       label:'Capital Ouvert',      req: s => s.ipoListed,                icon:'📊' },
+  { id:'gen2',      label:'Deuxième Génération', req: s => s.generation>=2,            icon:'⚜️' },
+  { id:'gen5',      label:'Cinquième Génération',req: s => s.generation>=5,            icon:'🌟' },
+  { id:'luxeJet',   label:'Voyageur du Ciel',    req: s => s.luxesOwned.includes('jet'),icon:'✈️' },
+  { id:'immo10',    label:'Baron Foncier',        req: s => s.nbApparts>=10,            icon:'🏢' },
+  { id:'rep300',    label:'Personnalité Publique',req: s => s.reputation>=300,          icon:'🌟' },
+  { id:'retire',    label:'Retraite Méritée',    req: s => s.isRetired,                icon:'🏖️' },
 ];
 
 const EVENTS = [
   {
     id:'heritage', icon:'🎩', title:'Héritage Surprise', type:'good',
-    body:'Un parent éloigné décède et vous lègue une part de son patrimoine.',
-    choices:[{ label:'Accepter l\'héritage', effect: s => { let g=rnd(20000,150000); s.courant+=g; return {txt:`+${fmt(g)} reçus`, cls:'good'}; } }]
+    body:'Un parent éloigné s\'éteint et vous lègue une part significative de son patrimoine.',
+    choices:[{ label:'Accepter l\'héritage', effect: s => { let g=rnd(20000,200000); s.courant+=g; return {txt:`+${fmt(g)} reçus`, cls:'good'}; } }]
   },
   {
     id:'divorce', icon:'💔', title:'Rupture & Partage', type:'bad',
-    body:'Une séparation douloureuse s\'impose. Le patrimoine est partiellement liquidé.',
+    body:'Une séparation douloureuse s\'impose. Le patrimoine liquide est partiellement partagé.',
     choices:[
-      { label:'Arrangement amiable (−15%)',   effect: s => { let c=.15; s.courant*=(1-c);s.etf*=(1-c); return {txt:`−15% patrimoine liquide`,cls:'bad'}; } },
-      { label:'Combat judiciaire (−5%, lent)', effect: s => { let c=.05; s.courant*=(1-c);s.etf*=(1-c);s.bonheur=Math.max(0,s.bonheur-20); return {txt:`−5% + −20 mental`,cls:'bad'}; } },
+      { label:'Arrangement amiable (−15%)',    effect: s => { s.courant*=.85;s.etf*=.85; return {txt:'−15% patrimoine liquide',cls:'bad'}; } },
+      { label:'Combat judiciaire (−5%)',        effect: s => { s.courant*=.95;s.etf*=.95;s.bonheur=Math.max(0,s.bonheur-20); return {txt:'−5% + −20 mental',cls:'bad'}; } },
     ]
   },
   {
     id:'procès', icon:'⚖️', title:'Assignation en Justice', type:'bad',
-    body:'Vous êtes poursuivi dans un litige commercial coûteux.',
+    body:'Un litige commercial vous place face à une procédure judiciaire coûteuse.',
     choices:[
-      { label:'Payer à l\'amiable',   effect: s => { let g=rnd(20000,60000);s.courant-=g; return {txt:`−${fmt(g)} réglés`,cls:'bad'}; } },
-      { label:'Aller au procès',      effect: s => { let ok=Math.random()<.45; if(ok){return {txt:`Victoire ! Dossier classé.`,cls:'good'};}else{let g=rnd(40000,100000);s.courant-=g;return {txt:`Défaite − ${fmt(g)} d\'amende`,cls:'bad'};} } },
+      { label:'Régler à l\'amiable', effect: s => { let g=rnd(20000,80000);s.courant-=g; return {txt:`−${fmt(g)} réglés`,cls:'bad'}; } },
+      { label:'Aller au procès',     effect: s => { let ok=Math.random()<.45; if(ok)return{txt:'Victoire ! Dossier classé.',cls:'good'};let g=rnd(50000,120000);s.courant-=g;return{txt:`Défaite − ${fmt(g)}`,cls:'bad'}; } },
     ]
   },
   {
     id:'startup', icon:'🚀', title:'Opportunité Startup', type:'info',
-    body:'Une startup tech cherche un investisseur providentiel. Risque élevé, potentiel énorme.',
+    body:'Une startup deep-tech cherche un investisseur providentiel. Risque élevé, potentiel exceptionnel.',
     choices:[
-      { label:'Investir 50k€',  effect: s => { if(s.courant<50000)return{txt:'Fonds insuffisants.',cls:'bad'};s.courant-=50000;let ok=Math.random()<.30;if(ok){let m=rnd(4,15);s.courant+=50000*m;return{txt:`SUCCÈS ×${m.toFixed(1)} — +${fmt(50000*(m-1))}`,cls:'good'};}return{txt:'FAILLITE — 50k€ perdus',cls:'bad'}; } },
-      { label:'Décliner', effect: s => { return {txt:'Opportunité déclinée.',cls:'good'}; } },
+      { label:'Investir 50k€', effect: s => { if(s.courant<50000)return{txt:'Fonds insuffisants.',cls:'bad'};s.courant-=50000;let ok=Math.random()<.30;if(ok){let m=rnd(4,20);s.courant+=50000*m;return{txt:`SUCCÈS ×${m.toFixed(1)} — +${fmt(50000*(m-1))}`,cls:'good'};}return{txt:'FAILLITE — 50k€ perdus',cls:'bad'}; } },
+      { label:'Décliner prudemment', effect: () => ({txt:'Opportunité déclinée.',cls:'good'}) },
     ]
   },
   {
     id:'scandale', icon:'📰', title:'Scandale Médiatique', type:'bad',
-    body:'Une rumeur vous éclabousse dans la presse people.',
+    body:'Une rumeur vous éclabousse dans la presse économique et people.',
     choices:[
-      { label:'Relations Presse (10k€)', effect: s => { s.courant-=10000;s.reputation=Math.max(0,s.reputation-10);return{txt:`−10k€ − 10 rép.`,cls:'bad'}; } },
-      { label:'Ignorer', effect: s => { s.reputation=Math.max(0,s.reputation-35);return{txt:`−35 Réputation`,cls:'bad'}; } },
+      { label:'Relations Presse (10k€)', effect: s => { s.courant-=10000;s.reputation=Math.max(0,s.reputation-10);return{txt:'−10k€ − 10 rép.',cls:'bad'}; } },
+      { label:'Ignorer',                 effect: s => { s.reputation=Math.max(0,s.reputation-40);return{txt:'−40 Réputation',cls:'bad'}; } },
     ]
   },
   {
     id:'prix', icon:'🏆', title:'Prix d\'Excellence', type:'good',
-    body:'Vous recevez une distinction nationale pour votre parcours.',
-    choices:[{ label:'Accepter l\'honneur', effect: s => { s.reputation=clamp(s.reputation+45,0,500);s.bonheur=clamp(s.bonheur+10,0,100);return{txt:`+45 Réputation · +10 Mental`,cls:'good'}; } }]
+    body:'Une distinction nationale salue votre parcours exceptionnel.',
+    choices:[{ label:'Accepter l\'honneur', effect: s => { s.reputation=clamp(s.reputation+50,0,500);s.bonheur=clamp(s.bonheur+12,0,100);return{txt:'+50 Réputation · +12 Mental',cls:'good'}; } }]
   },
   {
     id:'crise_sante', icon:'🏥', title:'Alerte Santé', type:'bad',
-    body:'Un problème de santé inattendu nécessite une hospitalisation urgente.',
+    body:'Un problème de santé inattendu nécessite une hospitalisation d\'urgence.',
     choices:[
-      { label:'Clinique Privée (20k€)', effect: s => { s.courant-=20000;s.sante=clamp(s.sante+15,0,100);return{txt:`−20k€ + rétablissement partiel`,cls:'bad'}; } },
-      { label:'Hôpital Public',         effect: s => { s.sante=Math.max(0,s.sante-20);return{txt:`−20 Santé Physique`,cls:'bad'}; } },
+      { label:'Clinique Privée (20k€)', effect: s => { s.courant-=20000;s.sante=clamp(s.sante+20,0,100);return{txt:'−20k€ + rétablissement partiel',cls:'bad'}; } },
+      { label:'Hôpital Public',         effect: s => { s.sante=Math.max(0,s.sante-25);return{txt:'−25 Santé Physique',cls:'bad'}; } },
     ]
   },
   {
-    id:'krach_immo', icon:'🏗️', title:'Bulle Immobilière', type:'bad',
-    body:'Le marché immobilier dévisse. Vos biens perdent de la valeur temporairement.',
-    choices:[{ label:'Attendre la reprise', effect: s => { s.prixImmoBase*=.75;s.macroCycle=0;return{txt:`Prix immo −25% · Crise activée`,cls:'bad'}; } }]
+    id:'krach', icon:'📉', title:'Krach Boursier', type:'bad',
+    body:'Les marchés mondiaux s\'effondrent sous le poids d\'une crise systémique.',
+    choices:[{ label:'Protéger le portefeuille', effect: s => { s.etf*=.60;s.prixImmoBase*=.78;s.macroCycle=0;return{txt:'ETF −40% · Immo −22% · Crise activée',cls:'bad'}; } }]
   },
   {
-    id:'crypto_hack', icon:'🔓', title:'Hack Crypto', type:'bad',
+    id:'crypto_hack', icon:'🔓', title:'Attaque Crypto', type:'bad',
     body:'Votre portefeuille crypto est compromis par une attaque sophistiquée.',
     choices:[
-      { label:'Payer rançon (5k€)',  effect: s => { let l=s.crypto*.3;s.crypto-=l;s.courant-=5000;return{txt:`−${fmt(l)} crypto + −5k€ rançon`,cls:'bad'}; } },
-      { label:'Couper les accès',    effect: s => { let l=s.crypto*.6;s.crypto-=l;return{txt:`−${fmt(l)} crypto perdus`,cls:'bad'}; } },
+      { label:'Payer rançon (5k€)', effect: s => { let l=s.crypto*.30;s.crypto-=l;s.courant-=5000;return{txt:`−${fmt(l)} crypto + −5k€ rançon`,cls:'bad'}; } },
+      { label:'Couper les accès',   effect: s => { let l=s.crypto*.65;s.crypto-=l;return{txt:`−${fmt(l)} crypto perdus`,cls:'bad'}; } },
     ]
   },
   {
-    id:'controle_fiscal', icon:'🧾', title:'Contrôle Fiscal', type:'bad',
-    body:'L\'administration fiscale s\'intéresse à vos déclarations des 3 dernières années.',
+    id:'fiscal', icon:'🧾', title:'Contrôle Fiscal', type:'bad',
+    body:'L\'administration fiscale s\'intéresse à vos déclarations des trois dernières années.',
     choices:[
-      { label:'Régulariser (payer)',     effect: s => { let t=s.revenusAnnuelsCumules*.12;s.courant-=t;return{txt:`Redressement: −${fmt(t)}`,cls:'bad'}; } },
-      { label:'Mandater un avocat fiscaliste', effect: s => { let ok=Math.random()<.6;s.courant-=15000;if(ok)return{txt:`Victoire ! −15k€ honoraires seulement.`,cls:'good'};let t=s.revenusAnnuelsCumules*.08;s.courant-=t;return{txt:`Perdu: −15k€ + −${fmt(t)}`,cls:'bad'}; } },
+      { label:'Régulariser',           effect: s => { let t=s.revenusAnnuelsCumules*.12;s.courant-=t;return{txt:`Redressement: −${fmt(t)}`,cls:'bad'}; } },
+      { label:'Avocat fiscaliste',     effect: s => { let ok=Math.random()<.55;s.courant-=15000;if(ok)return{txt:'Victoire ! −15k€ honoraires seulement.',cls:'good'};let t=s.revenusAnnuelsCumules*.09;s.courant-=t;return{txt:`Perdu: −15k€ + −${fmt(t)}`,cls:'bad'}; } },
     ]
   },
   {
-    id:'opportunite_terre', icon:'🌾', title:'Terres Agricoles', type:'info',
-    body:'Un propriétaire terrien cherche à vendre rapidement ses domaines en Bourgogne.',
+    id:'terres', icon:'🌾', title:'Domaine à Vendre', type:'info',
+    body:'Un propriétaire terrien cède rapidement ses domaines en Bourgogne.',
     choices:[
-      { label:'Acquérir (150k€)', effect: s => { if(s.courant<150000)return{txt:'Fonds insuffisants.',cls:'bad'};s.courant-=150000;s.nbApparts+=2;s.reputation=clamp(s.reputation+15,0,500);return{txt:`+2 lots immobiliers · +15 rép.`,cls:'good'}; } },
-      { label:'Décliner', effect: s => { return {txt:'Passé votre tour.', cls:'good'}; } },
+      { label:'Acquérir (150k€)', effect: s => { if(s.courant<150000)return{txt:'Fonds insuffisants.',cls:'bad'};s.courant-=150000;s.nbApparts+=2;s.reputation=clamp(s.reputation+20,0,500);return{txt:'+2 lots · +20 réputation',cls:'good'}; } },
+      { label:'Décliner',         effect: () => ({txt:'Passé votre tour.',cls:'good'}) },
     ]
   },
   {
-    id:'mariage', icon:'💒', title:'Mariage Prestigieux', type:'good',
-    body:'Une alliance matrimoniale avec une famille d\'influence vous est proposée.',
+    id:'mariage', icon:'💒', title:'Alliance Matrimoniale', type:'good',
+    body:'Une union avec une famille d\'influence vous est proposée.',
     choices:[
-      { label:'Accepter l\'union', effect: s => { s.reputation=clamp(s.reputation+50,0,500);let dot=rnd(50000,200000);s.courant+=dot;return{txt:`+50 rép. · Dot: +${fmt(dot)}`,cls:'good'}; } },
-      { label:'Décliner poliment', effect: s => { return {txt:'Liberté préservée.', cls:'good'}; } },
+      { label:'Accepter l\'union', effect: s => { s.reputation=clamp(s.reputation+60,0,500);let d=rnd(60000,250000);s.courant+=d;return{txt:`+60 rép. · Dot: +${fmt(d)}`,cls:'good'}; } },
+      { label:'Décliner poliment', effect: () => ({txt:'Liberté préservée.',cls:'good'}) },
+    ]
+  },
+  {
+    id:'bull_run', icon:'🚀', title:'BULL RUN Crypto', type:'good',
+    body:'Une euphorie sans précédent frappe les marchés crypto. Votre moment.',
+    choices:[
+      { label:'Surfer la vague',   effect: s => { if(s.crypto>0){let m=rnd(1.5,4);s.crypto*=m;return{txt:`×${m.toFixed(1)} — Crypto +${fmt(s.crypto*.6)}`,cls:'good'};}return{txt:'Pas de crypto à valoriser.',cls:'bad'}; } },
+      { label:'Tout encaisser',    effect: s => { let g=s.crypto;s.courant+=g;s.crypto=0;return{txt:`+${fmt(g)} encaissés`,cls:'good'}; } },
+    ]
+  },
+  {
+    id:'fusion', icon:'🤝', title:'Offre de Rachat', type:'good',
+    body:'Un groupe international propose de racheter votre holding à prime.',
+    choices:[
+      { label:'Vendre (×3 valorisation)', effect: s => { if(!s.isEntrepreneur)return{txt:'Pas de holding à vendre.',cls:'bad'};let v=s.bizLevel*150000*3;s.courant+=v;s.isEntrepreneur=false;s.bizLevel=1;return{txt:`+${fmt(v)} · Exit réussi !`,cls:'good'}; } },
+      { label:'Refuser', effect: s => { s.reputation=clamp(s.reputation+15,0,500);return{txt:'+15 réputation · Indépendance préservée.',cls:'good'}; } },
     ]
   },
 ];
@@ -948,80 +1273,147 @@ const DEFAULTS = {
   luxeEntretien:0, luxeStress:0,
   maxSalaire:1800,
   taxSuccession:30, fiducie:false,
-  contacts:[],
-  luxesOwned:[],
-  revenusAnnuels:0,
-  debtRate:0.05,
-  etfBonus:0,
-  repBonus:0,
-  healthBonus:0,
-  immoRentBonus:1,
-  lastEventMonth:-60,
-  milestones:[],
+  contacts:[], luxesOwned:[], achievementsUnlocked:[],
+  revenusAnnuels:0, revenusAnnuelsCumules:0,
+  debtRate:0.05, etfBonus:0, repBonus:0,
+  repMultiplier:1, healthBonus:0, immoRentBonus:1,
+  taxDiscount:0, lastEventMonth:-99,
+  peakNW: 0,
 };
 
-let S = Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem(SAVE_KEY)||'{}'));
+let S = Object.assign({}, DEFAULTS);
+try {
+  const saved = JSON.parse(localStorage.getItem(SAVE_KEY)||'{}');
+  S = Object.assign({}, DEFAULTS, saved);
+} catch(e) {}
 
 /* ═══════════════════════════════════════════════════
    CHART ENGINE
 ═══════════════════════════════════════════════════ */
-let stockIdx = S._stockIdx || 100;
+let stockIdx  = S._stockIdx  || 100;
 let stockHist = S._stockHist || Array(60).fill(100);
+let chartTouching = false;
 
 function drawChart() {
-  const wrap = $('chartWrap');
+  const wrap   = $('chartWrap');
   const canvas = $('stockCanvas');
   if (!wrap || !canvas) return;
-  const W = wrap.offsetWidth * 2;
-  const H = wrap.offsetHeight * 2;
-  canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 2;
+  const W   = wrap.clientWidth  * dpr;
+  const H   = wrap.clientHeight * dpr;
+  canvas.width  = W;
+  canvas.height = H;
+  canvas.style.width  = wrap.clientWidth  + 'px';
+  canvas.style.height = wrap.clientHeight + 'px';
+
+  const ctx  = canvas.getContext('2d');
+  const data = stockHist;
+  const mn   = Math.min(...data) * .94;
+  const mx   = Math.max(...data) * 1.06;
+  const rng  = mx - mn || 1;
+  const px   = i => (i/(data.length-1)) * W;
+  const py   = v => H - ((v-mn)/rng) * H * .78 - H * .12;
+
   ctx.clearRect(0,0,W,H);
 
-  const data = stockHist;
-  const min = Math.min(...data) * .96;
-  const max = Math.max(...data) * 1.04;
-  const range = max - min || 1;
-  const px = i => (i/(data.length-1)) * W;
-  const py = v => H - ((v-min)/range) * H * .82 - H * .09;
-
   // Grid
-  ctx.strokeStyle = '#1c1c32'; ctx.lineWidth = 1;
+  ctx.setLineDash([3*dpr, 6*dpr]);
+  ctx.strokeStyle = 'rgba(28,28,58,.8)';
+  ctx.lineWidth = 1 * dpr;
   [.25,.5,.75].forEach(f => {
     ctx.beginPath(); ctx.moveTo(0,H*f); ctx.lineTo(W,H*f); ctx.stroke();
   });
+  ctx.setLineDash([]);
 
   const isUp = data[data.length-1] >= data[0];
-  const col = isUp ? '#2ecc71' : '#e74c3c';
+  const col  = isUp ? '#34d399' : '#f87171';
+  const colD = isUp ? 'rgba(52,211,153,' : 'rgba(248,113,113,';
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,   colD+'0.28)');
+  grad.addColorStop(0.7, colD+'0.04)');
+  grad.addColorStop(1,   colD+'0)');
+
+  // Build smooth bezier path
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(data[0]));
+  for (let i=1; i<data.length; i++) {
+    const mx0 = (px(i)+px(i-1))/2;
+    ctx.bezierCurveTo(mx0,py(data[i-1]),mx0,py(data[i]),px(i),py(data[i]));
+  }
 
   // Fill
-  const grad = ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0, col+'50');
-  grad.addColorStop(1, col+'00');
-  ctx.beginPath();
-  ctx.moveTo(px(0),py(data[0]));
-  data.forEach((v,i) => ctx.lineTo(px(i),py(v)));
-  ctx.lineTo(px(data.length-1),H); ctx.lineTo(0,H);
-  ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+  const lastX = px(data.length-1);
+  ctx.lineTo(lastX, H); ctx.lineTo(0, H); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
 
   // Line
   ctx.beginPath();
-  ctx.moveTo(px(0),py(data[0]));
-  data.forEach((v,i) => ctx.lineTo(px(i),py(v)));
-  ctx.strokeStyle=col; ctx.lineWidth=3; ctx.lineJoin='round'; ctx.stroke();
+  ctx.moveTo(px(0), py(data[0]));
+  for (let i=1; i<data.length; i++) {
+    const mx0 = (px(i)+px(i-1))/2;
+    ctx.bezierCurveTo(mx0,py(data[i-1]),mx0,py(data[i]),px(i),py(data[i]));
+  }
+  ctx.strokeStyle = col; ctx.lineWidth = 2.5*dpr;
+  ctx.lineJoin = 'round'; ctx.stroke();
 
-  // Dot
+  // Endpoint dot
   const lx=px(data.length-1), ly=py(data[data.length-1]);
-  ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2);
-  ctx.fillStyle=col; ctx.fill();
-  ctx.strokeStyle='#05050a'; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(lx,ly,5*dpr,0,Math.PI*2);
+  ctx.fillStyle = col; ctx.fill();
+  ctx.strokeStyle = '#04040c'; ctx.lineWidth = 2*dpr; ctx.stroke();
 
-  // Overlay
-  const perf = ((data[data.length-1]/data[0]-1)*100).toFixed(1);
-  $('chartPrice').textContent = stockIdx.toFixed(2);
-  $('chartPrice').style.color = isUp ? 'var(--emerald)' : 'var(--ruby)';
-  $('chartDelta').textContent = (perf>=0?'+':'')+perf+'%';
-  $('chartDelta').style.color = isUp ? 'var(--emerald)' : 'var(--ruby)';
+  // Update overlay
+  const perf = ((data[data.length-1]/(data[0]||1)-1)*100).toFixed(1);
+  $('chartPrice').textContent  = stockIdx.toFixed(2);
+  $('chartPrice').style.color  = isUp ? 'var(--emerald)' : 'var(--ruby)';
+  $('chartDelta').textContent  = (perf>=0?'+':'')+perf+'%';
+  $('chartDelta').style.color  = isUp ? 'var(--emerald)' : 'var(--ruby)';
+}
+
+// Touch/mouse crosshair on chart
+function initChartTouch() {
+  const wrap = $('chartWrap');
+  if (!wrap) return;
+  const crosshair = $('chartCrosshair');
+  const dot = $('chartDot');
+  const tip = $('chartTooltip');
+
+  function show(clientX) {
+    const rect = wrap.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const pct = x / rect.width;
+    const idx = Math.round(pct * (stockHist.length-1));
+    const val = stockHist[idx];
+    if (!val) return;
+    const perf = ((val/(stockHist[0]||1)-1)*100).toFixed(1);
+    const mn = Math.min(...stockHist)*.94, mx = Math.max(...stockHist)*1.06;
+    const rng = mx-mn||1;
+    const yPct = 1 - ((val-mn)/rng)*.78 - .12;
+    const yPx = yPct * rect.height;
+
+    crosshair.style.display = 'block';
+    crosshair.style.left = x+'px';
+    dot.style.display = 'block';
+    dot.style.left = x+'px'; dot.style.top = yPx+'px';
+    tip.style.display = 'block';
+    tip.style.left = Math.min(x, rect.width-80)+'px';
+    tip.style.top = Math.max(0, yPx-28)+'px';
+    tip.innerHTML = `<span style="color:${perf>=0?'var(--emerald)':'var(--ruby)'}">${val.toFixed(1)}</span>`;
+    chartTouching = true;
+  }
+  function hide() {
+    crosshair.style.display='none';
+    dot.style.display='none';
+    tip.style.display='none';
+    chartTouching=false;
+  }
+  wrap.addEventListener('touchstart', e=>show(e.touches[0].clientX), {passive:true});
+  wrap.addEventListener('touchmove',  e=>show(e.touches[0].clientX), {passive:true});
+  wrap.addEventListener('touchend',   hide, {passive:true});
+  wrap.addEventListener('mousemove',  e=>show(e.clientX));
+  wrap.addEventListener('mouseleave', hide);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1029,172 +1421,207 @@ function drawChart() {
 ═══════════════════════════════════════════════════ */
 const CALC = {
   prixImmo() {
-    return S.prixImmoBase * (S.macroCycle===0?.72 : S.macroCycle===2?1.38 : 1.0);
+    return S.prixImmoBase * ({0:.72,1:1.0,2:1.40}[S.macroCycle]||1.0);
   },
   revenus() {
     if (S.isRetired) return S.pension;
     if (S.isEntrepreneur) {
-      let base = S.bizLevel * 5000 * (S.ipoListed?1.6:1);
-      let cycl = S.macroCycle===0?.45 : S.macroCycle===2?1.7 : 1.0;
-      return base * cycl;
+      let base = S.bizLevel * 5500 * (S.ipoListed?1.7:1);
+      let cyc  = {0:.40,1:1.0,2:1.85}[S.macroCycle]||1.0;
+      return base * cyc;
     }
     let sal = CAREERS[S.jobLevel].salary;
-    let repBonus = Math.floor(S.reputation/50)*600;
-    return sal + repBonus;
+    let bonus = Math.floor(S.reputation/40)*800;
+    return sal + bonus;
   },
   charges() {
-    let credit = S.dettes>0 ? S.dettes * S.debtRate / 12 : 0;
+    let credit = S.dettes>0 ? S.dettes*S.debtRate/12 : 0;
     return S.coutVieBase + S.enfants*500 + S.nbApparts*800 + S.luxeEntretien + credit;
   },
   netWorth() {
-    let bizVal = (S.isEntrepreneur&&!S.isRetired) ? S.bizLevel*150000*(S.ipoListed?2.2:1) : 0;
+    let bizVal = (S.isEntrepreneur&&!S.isRetired) ? S.bizLevel*180000*(S.ipoListed?2.2:1) : 0;
     return S.courant + S.livret + S.etf + S.crypto + S.nbApparts*CALC.prixImmo() + bizVal - S.dettes;
   },
   cashflow() {
     return CALC.revenus() + S.nbApparts*1000*S.immoRentBonus - CALC.charges();
   },
   wealthTier() {
-    let nw = CALC.netWorth();
-    if (nw < 100000)   return { tier:0, label:'Roturier',    cls:'tier-0' };
-    if (nw < 500000)   return { tier:1, label:'Bourgeois',   cls:'tier-1' };
-    if (nw < 2000000)  return { tier:2, label:'Rentier',     cls:'tier-2' };
-    if (nw < 10000000) return { tier:3, label:'Millionnaire',cls:'tier-3' };
-    if (nw < 100000000){ return { tier:4, label:'Oligarque', cls:'tier-4' }; }
-    return { tier:5, label:'Dynastique', cls:'tier-5' };
-  },
+    const nw = CALC.netWorth();
+    if (nw < 100000)    return {tier:0,label:'Roturier',     cls:'tier-0'};
+    if (nw < 500000)    return {tier:1,label:'Bourgeois',    cls:'tier-1'};
+    if (nw < 2000000)   return {tier:2,label:'Rentier',      cls:'tier-2'};
+    if (nw < 10000000)  return {tier:3,label:'Millionnaire', cls:'tier-3'};
+    if (nw < 100000000) return {tier:4,label:'Oligarque',    cls:'tier-4'};
+    return                    {tier:5,label:'Dynastique',   cls:'tier-5'};
+  }
 };
 
 /* ═══════════════════════════════════════════════════
    UI MODULE
 ═══════════════════════════════════════════════════ */
+const tabs = ['home','invest','biz','shop'];
+let activeTab = 'home';
+
 const UI = {
   tab(id, btn) {
-    document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+    const prev = tabs.indexOf(activeTab);
+    const next = tabs.indexOf(id);
+    const dir  = next > prev ? 'slide-left' : 'slide-right';
+
+    document.querySelectorAll('.view').forEach(e=>{e.classList.remove('active','slide-left','slide-right');});
     document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
-    $('view-'+id).classList.add('active');
+
+    const view = $('view-'+id);
+    view.classList.add('active', dir);
     btn.classList.add('active');
-    if (id==='invest') { requestAnimationFrame(drawChart); }
+    activeTab = id;
+
+    $('scrollPane').scrollTop = 0;
+    if (id==='invest') { setTimeout(drawChart, 50); }
   },
 
   log(msg, col='var(--muted)') {
     const el = $('log');
     const div = document.createElement('div');
     div.className = 'log-line';
-    div.innerHTML = `<span class="log-ts">[G${S.generation}·${S.ageAnnees}a]</span><span class="log-msg" style="color:${col}">${msg}</span>`;
+    const genRoman = roman[Math.min(S.generation-1,9)];
+    div.innerHTML = `<span class="log-ts">[G${genRoman}·${S.ageAnnees}a]</span><span class="log-msg" style="color:${col}">${msg}</span>`;
     el.insertBefore(div, el.firstChild);
-    if (el.children.length > 80) el.removeChild(el.lastChild);
+    if (el.children.length > 100) el.removeChild(el.lastChild);
   },
 
   refresh() {
-    const nw = CALC.netWorth();
-    const cf = CALC.cashflow();
+    const nw   = CALC.netWorth();
+    const cf   = CALC.cashflow();
     const tier = CALC.wealthTier();
 
-    // Dynasty hero
-    const genStr = `Génération ${roman[Math.min(S.generation-1,9)]} · ${S.generation===1?'Fondateur':'Héritier'}`;
-    $('genBadge').textContent = genStr;
-    $('nwVal').textContent = fmt(nw);
-    $('nwVal').className = 'nw-value' + (nw<0?' neg':'');
-    $('nwDelta').textContent = (cf>=0?'+':'')+fmt(cf)+'/mois';
-    $('nwDelta').className = 'nw-delta '+(cf>=0?'pos':'neg');
+    // Peak tracking
+    if (nw > (S.peakNW||0)) S.peakNW = nw;
+
+    // Hero
+    const genRoman = roman[Math.min(S.generation-1,9)];
+    $('genBadge').textContent = `Génération ${genRoman} · ${S.generation===1?'Fondateur':'Héritier'}`;
+    $('nwVal').textContent     = fmt(nw);
+    $('nwVal').className       = 'nw-amount serif'+(nw<0?' neg':'');
+    $('nwCf').textContent      = (cf>=0?'+':'')+fmt(cf)+'/mois';
+    $('nwCf').className        = 'nw-cf '+(cf>=0?'pos':'neg');
 
     const macroCfg = [
-      { col:'var(--ruby)',    txt:'Crise Économique' },
-      { col:'var(--muted)',   txt:'Marché Stable' },
-      { col:'var(--emerald)', txt:'Bull Market 🚀' },
+      {col:'var(--ruby)',    txt:'Crise Économique'},
+      {col:'var(--muted)',   txt:'Marché Stable'},
+      {col:'var(--emerald)', txt:'Bull Market 🚀'},
     ][S.macroCycle];
-    $('macroLed').style.color = macroCfg.col;
+    $('macroLed').style.color      = macroCfg.col;
     $('macroLed').style.background = macroCfg.col;
-    $('macroTxt').textContent = macroCfg.txt;
-    $('macroTxt').style.color = macroCfg.col;
-    $('tierBadge').textContent = '◆ '+tier.label;
-    $('tierBadge').className = 'tier-badge '+tier.cls;
+    $('macroTxt').textContent       = macroCfg.txt;
+    $('macroTxt').style.color       = macroCfg.col;
+    $('tierBadge').textContent      = '◆ '+tier.label;
+    $('tierBadge').className        = 'tier-badge '+tier.cls;
 
-    // Stats
-    $('courant').textContent = fmt(S.courant);
+    // Stats top
+    $('courant').textContent  = fmt(S.courant);
     $('cashflow').textContent = (cf>=0?'+':'')+fmt(cf)+' €';
-    $('cashflow').className = 'stat-val '+(cf>=0?'c-green':'c-red');
-    $('dettes').textContent = fmt(S.dettes);
-    $('ageA').textContent = S.ageAnnees;
-    $('statutVie').textContent = S.isRetired?'🏖️ Retraité' : S.isEntrepreneur?'👑 Entrepreneur':'💼 Salarié';
+    $('cashflow').className   = 'stat-val '+(cf>=0?'c-green':'c-red');
+    $('dettes').textContent   = fmt(S.dettes);
 
-    const bh = clamp(S.bonheur,0,100), bs = clamp(S.sante,0,100);
-    $('bonheurVal').textContent = Math.floor(bh)+'%';
-    $('santeVal').textContent   = Math.floor(bs)+'%';
-    $('barBonheur').style.width = bh+'%';
-    $('barBonheur').style.background = bh>60?'var(--emerald)':bh>30?'var(--gold)':'var(--ruby)';
-    $('barSante').style.width = bs+'%';
-    $('barSante').style.background = bs>60?'var(--sapphire)':bs>30?'var(--gold)':'var(--ruby)';
-    $('repVal').textContent = Math.floor(S.reputation);
-    $('barRep').style.width = Math.min(100,S.reputation/5)+'%';
+    // Profile
+    $('ageA').textContent = S.ageAnnees;
+    $('statutVie').textContent = S.isRetired?'🏖️ Retraité':S.isEntrepreneur?'👑 Entrepreneur':'💼 Salarié';
+    $('repVal').textContent    = Math.floor(S.reputation);
+    $('barRep').style.width    = Math.min(100,S.reputation/5)+'%';
+
+    // Rings
+    const circum = 150.8;
+    const bh = clamp(S.bonheur,0,100);
+    const bs = clamp(S.sante,0,100);
+    $('ringMental').style.strokeDashoffset = circum*(1-bh/100);
+    $('ringMental').style.stroke = bh>60?'var(--emerald)':bh>30?'var(--amber)':'var(--ruby)';
+    $('ringSante').style.strokeDashoffset  = circum*(1-bs/100);
+    $('ringSante').style.stroke  = bs>60?'var(--sapphire)':bs>30?'var(--amber)':'var(--ruby)';
+    $('bonheurVal').textContent  = Math.floor(bh)+'%';
+    $('bonheurVal').style.color  = bh>60?'var(--emerald)':bh>30?'var(--amber)':'var(--ruby)';
+    $('santeVal').textContent    = Math.floor(bs)+'%';
+    $('santeVal').style.color    = bs>60?'var(--sapphire)':bs>30?'var(--amber)':'var(--ruby)';
 
     // Marchés
     $('livretVal').textContent = fmt(S.livret);
     $('etfVal').textContent    = fmt(S.etf);
     $('cryptoVal').textContent = fmt(S.crypto);
-    const idx0 = stockHist[0]||100, idxN = stockIdx;
-    const perfVal = ((idxN/idx0-1)*100).toFixed(1);
-    $('etfPerf').textContent = (perfVal>=0?'+':'')+perfVal+'%';
-    $('etfPerf').className = 'stat-val '+(perfVal>=0?'c-green':'c-red');
+    const perfV  = ((stockIdx/(stockHist[0]||1)-1)*100).toFixed(1);
+    $('etfPerf').textContent  = (perfV>=0?'+':'')+perfV+'%';
+    $('etfPerf').className    = 'stat-val '+(perfV>=0?'c-green':'c-red');
     $('tendance').textContent = ['↘ Baisse','→ Stable','↗ Hausse'][S.macroCycle];
-    $('tendance').className = 'stat-val '+(S.macroCycle===0?'c-red':S.macroCycle===2?'c-green':'c-muted');
+    $('tendance').className   = 'stat-val '+(S.macroCycle===0?'c-red':S.macroCycle===2?'c-green':'c-muted');
     $('prixImmo').textContent = fmt(CALC.prixImmo());
     $('nbApparts').textContent = S.nbApparts;
     $('renteImmo').textContent = '+'+fmt(S.nbApparts*1000*S.immoRentBonus)+'/m';
 
-    // Carrière & Business
+    // Biz / Career
     this._refreshBiz();
     this._buildCareerTree();
     this._buildPips();
     this._buildNetwork();
     this._buildLuxe();
+    this._buildSuccession();
 
-    // Divers
-    $('nbEnfants').textContent = S.enfants;
+    // Shop stats
+    $('nbEnfants').textContent    = S.enfants;
     $('taxSuccession').textContent = S.taxSuccession+'%';
-    $('bonusLuxe').textContent = '−'+S.luxeStress+'/mois';
-    $('fraisLuxe').textContent = fmt(S.luxeEntretien)+'/m';
+    $('bonusLuxe').textContent    = '−'+S.luxeStress+'/mois';
+    $('fraisLuxe').textContent    = fmt(S.luxeEntretien)+'/m';
+    $('moisTotal').textContent    = S.moisTotal;
+    $('genNum').textContent       = roman[Math.min(S.generation-1,9)];
+    $('peakNW').textContent       = fmt(S.peakNW||0);
+
+    // Achievements check
+    this._checkAchievements();
 
     // Save
     S._stockIdx  = stockIdx;
     S._stockHist = stockHist;
-    localStorage.setItem(SAVE_KEY, JSON.stringify(S));
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch(e){}
 
-    if ($('view-invest').classList.contains('active')) drawChart();
+    if (activeTab==='invest') drawChart();
   },
 
   _refreshBiz() {
     if (S.isRetired) {
-      $('sectionCarriere').style.display  = 'none';
-      $('sectionBusiness').style.display  = 'none';
-      $('btnLancerBiz').style.display     = 'none';
-      $('retraiteBanner').style.display   = 'block';
-      $('pensionTxt').textContent = fmt(S.pension)+'/mois';
+      $('sectionCarriere').style.display = 'none';
+      $('sectionBusiness').style.display = 'none';
+      $('btnLancerBiz').style.display    = 'none';
+      $('retraiteBanner').style.display  = 'block';
+      $('pensionTxt').textContent        = fmt(S.pension)+'/mois';
     } else if (S.isEntrepreneur) {
-      $('sectionCarriere').style.display  = 'none';
-      $('btnLancerBiz').style.display     = 'none';
-      $('retraiteBanner').style.display   = 'none';
-      $('sectionBusiness').style.display  = 'block';
-      $('bizLevel').textContent = S.bizLevel+(S.ipoListed?' · IPO ✅':'');
-      $('bizRev').textContent   = fmt(CALC.revenus())+'/m';
-      $('coutBiz').textContent  = fmt(S.bizLevel*20000);
-      $('btnIPO').style.display = S.ipoListed ? 'none' : 'block';
+      $('sectionCarriere').style.display = 'none';
+      $('btnLancerBiz').style.display    = 'none';
+      $('retraiteBanner').style.display  = 'none';
+      $('sectionBusiness').style.display = 'block';
+      // Build biz dots
+      const dotsEl = $('bizDots');
+      dotsEl.innerHTML = Array(10).fill(0).map((_,i) =>
+        `<div class="biz-dot${i<S.bizLevel?' active':''}"></div>`
+      ).join('');
+      const lvlEl = $('bizLevel');
+      lvlEl.innerHTML = S.bizLevel+(S.ipoListed?'<span class="ipo-badge">IPO ✅</span>':'');
+      $('bizRev').textContent = '+'+fmt(CALC.revenus())+'/m';
+      $('coutBiz').textContent = fmt(S.bizLevel*20000);
+      $('btnIPO').style.display = S.ipoListed?'none':'block';
     } else {
-      $('sectionBusiness').style.display  = 'none';
-      $('retraiteBanner').style.display   = 'none';
-      $('sectionCarriere').style.display  = 'block';
-      $('btnLancerBiz').style.display     = 'block';
+      $('sectionBusiness').style.display = 'none';
+      $('retraiteBanner').style.display  = 'none';
+      $('sectionCarriere').style.display = 'block';
+      $('btnLancerBiz').style.display    = 'block';
     }
   },
 
   _buildCareerTree() {
     const el = $('careerTree'); if (!el) return;
     el.innerHTML = CAREERS.map((j,i) => {
-      let isActive  = i === S.jobLevel && !S.isEntrepreneur && !S.isRetired;
-      let isLocked  = S.studyLevel < j.studyReq;
-      let cls = isActive?'active':isLocked?'locked':'unlocked';
+      const isActive = i===S.jobLevel && !S.isEntrepreneur && !S.isRetired;
+      const isLocked = S.studyLevel < j.studyReq;
+      const cls = isActive?'active':isLocked?'locked':'unlocked';
       return `<div class="career-rung ${cls}">
-        <div class="c-pip ${i<=S.jobLevel&&!S.isRetired?'on':''}"></div>
+        <div class="c-pip${i<=S.jobLevel&&!S.isRetired?' on':''}"></div>
         <div class="c-rung-info">
           <div class="c-rung-title">${j.emoji} ${j.label}</div>
           <div class="c-rung-sal">${fmt(j.salary)}/mois</div>
@@ -1202,6 +1629,7 @@ const UI = {
         <div class="c-rung-req" style="color:${isLocked?'var(--ruby)':'var(--muted)'}">Niv.${j.studyReq}</div>
       </div>`;
     }).join('');
+    if ($('studySubLabel')) $('studySubLabel').textContent = `Niveau d'études : ${S.studyLevel}/6`;
   },
 
   _buildPips() {
@@ -1214,8 +1642,8 @@ const UI = {
   _buildNetwork() {
     const el = $('networkList'); if (!el) return;
     el.innerHTML = NETWORK_CONTACTS.map(c => {
-      let connected = S.contacts.includes(c.id);
-      let locked = S.reputation < c.repReq;
+      const connected = S.contacts.includes(c.id);
+      const locked    = S.reputation < c.repReq;
       return `<div class="contact-item${connected?' connected':''}">
         <div class="contact-avatar">${c.emoji}</div>
         <div class="contact-info">
@@ -1226,8 +1654,8 @@ const UI = {
         ${connected
           ? '<div class="contact-badge">✓ Réseau</div>'
           : locked
-          ? `<div class="contact-badge" style="background:var(--faint);color:var(--muted)">Rép.${c.repReq}</div>`
-          : `<button class="btn btn-g" style="width:auto;padding:5px 10px;margin:0;font-size:9px;" onclick="G.recruterContact('${c.id}')">+${fmt(c.cost)}</button>`
+          ? `<div class="contact-badge lock">Rép.${c.repReq}</div>`
+          : `<button class="btn btn-gold" style="width:auto;padding:6px 11px;margin:0;font-size:9px;min-height:36px;" onclick="G.recruterContact('${c.id}')">+${fmt(c.cost,true)}</button>`
         }
       </div>`;
     }).join('');
@@ -1236,332 +1664,487 @@ const UI = {
   _buildLuxe() {
     const el = $('luxeList'); if (!el) return;
     el.innerHTML = LUXE_ITEMS.map(l => {
-      let owned = S.luxesOwned.includes(l.id);
-      return `<div class="luxe-item${owned?' owned':''}" ${!owned?`onclick="G.acheterLuxe('${l.id}')"`:''}">
+      const owned = S.luxesOwned.includes(l.id);
+      return `<div class="luxe-item${owned?' owned':''}" ${!owned?`onclick="G.acheterLuxe('${l.id}')"`:'tabindex="-1"'}>
         <div class="luxe-icon">${l.emoji}</div>
         <div class="luxe-info">
           <div class="luxe-name">${l.name}</div>
-          <div class="luxe-stats">${fmt(l.price)} · −${l.stress} stress · +${l.rep} rép. · ${fmt(l.maint)}/m</div>
+          <div class="luxe-stats">−${l.stress} stress · +${l.rep} rép. · ${fmt(l.maint,true)}/m</div>
         </div>
-        ${owned ? '' : `<div style="font-size:9px;color:var(--gold);flex-shrink:0;">${fmt(l.price)}</div>`}
+        ${owned
+          ? '<div class="luxe-check">✓</div>'
+          : `<div class="luxe-price">${fmt(l.price,true)}</div>`}
       </div>`;
     }).join('');
   },
 
-  modal(evObj) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    const typeClass = evObj.type==='good'?'type-good':evObj.type==='bad'?'type-bad':'type-info';
-    const choicesHTML = evObj.choices.map((c,i) =>
-      `<button class="btn${evObj.type==='good'?' btn-g':evObj.type==='bad'?' btn-r':' btn-b'}" onclick="G._chooseEvent(${i})">${c.label}</button>`
-    ).join('');
-    overlay.innerHTML = `<div class="modal ${typeClass}">
-      <span class="modal-icon">${evObj.icon}</span>
-      <div class="modal-title">${evObj.title}</div>
-      <div class="modal-body">${evObj.body}</div>
-      <div id="modalResult" class="modal-result" style="display:none;"></div>
-      <div class="modal-choice">${choicesHTML}</div>
-    </div>`;
-    document.body.appendChild(overlay);
-    window._currentModal = { overlay, evObj };
+  _buildSuccession() {
+    const el = $('successionList'); if (!el) return;
+    if (S.enfants===0) { el.innerHTML=''; return; }
+    el.innerHTML = Array(Math.min(S.enfants,5)).fill(0).map((_,i) =>
+      `<div class="succession-viz">
+        <div class="child-avatar">${i%2===0?'👦':'👧'}</div>
+        <div class="child-info">
+          <div style="font-size:10px;font-weight:600;">Héritier ${i+1}</div>
+          <div style="font-size:8.5px;color:var(--muted);">Part de succession</div>
+        </div>
+        <div style="font-size:9px;color:var(--gold);">${Math.floor(100/S.enfants)}%</div>
+      </div>`
+    ).join('') + (S.enfants>5?`<div class="stat-sub" style="text-align:center;padding:4px;">+${S.enfants-5} autres héritiers</div>`:'');
   },
+
+  _checkAchievements() {
+    ACHIEVEMENTS.forEach(a => {
+      if (!S.achievementsUnlocked.includes(a.id) && a.req(S)) {
+        S.achievementsUnlocked.push(a.id);
+        this._showAchievement(a);
+      }
+    });
+  },
+
+  _showAchievement(a) {
+    Toast.show(`${a.icon} ${a.label}`, 'Accomplissement débloqué !', 'gold', 4000);
+    confetti(window.innerWidth/2, 100);
+  },
+
+  sheet(evObj) {
+    const overlay = document.createElement('div');
+    overlay.className = 'sheet-overlay';
+    const typeMap = {good:'btn-gold',bad:'btn-red',info:'btn-blue'};
+    const btnCls  = typeMap[evObj.type]||'btn-blue';
+    overlay.innerHTML = `
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <span class="sheet-icon">${evObj.icon}</span>
+        <div class="sheet-title serif">${evObj.title}</div>
+        <div class="sheet-body">${evObj.body}</div>
+        <div id="sheetResult" class="sheet-result" style="display:none;"></div>
+        <div class="sheet-choices">
+          ${evObj.choices.map((c,i) =>
+            `<button class="btn ${btnCls}" style="text-align:center;" onclick="G._chooseEvent(${i})">${c.label}</button>`
+          ).join('')}
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+    window._currentSheet = { overlay, evObj };
+  }
 };
+
+/* ═══════════════════════════════════════════════════
+   CONFETTI
+═══════════════════════════════════════════════════ */
+function confetti(cx, cy) {
+  const colors = ['#c8a84b','#f0d080','#34d399','#60a5fa','#a78bfa','#fbbf24'];
+  for (let i=0; i<20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = cx+'px'; p.style.top = cy+'px';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    const tx = (Math.random()-0.5)*180;
+    const ty = -(Math.random()*250+100);
+    p.style.setProperty('--tx', `translate(${tx}px,${ty}px) rotate(${Math.random()*720}deg)`);
+    p.style.borderRadius = Math.random()>.5?'50%':'2px';
+    p.style.width = (Math.random()*6+4)+'px';
+    p.style.height = (Math.random()*6+4)+'px';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 2000);
+  }
+}
 
 /* ═══════════════════════════════════════════════════
    GAME MODULE
 ═══════════════════════════════════════════════════ */
 const G = {
   investir(type, amt) {
-    if (S.courant >= amt) {
-      S.courant -= amt; S[type] += amt;
-      UI.log(`→ Investissement ${type.toUpperCase()} +${fmt(amt)}`, 'var(--sapphire)');
-      UI.refresh();
-    }
+    if (S.courant < amt) { Toast.show('Fonds insuffisants', `Liquidités: ${fmt(S.courant)}`, 'error'); return; }
+    S.courant -= amt; S[type] += amt;
+    UI.log(`→ Investissement ${type.toUpperCase()} +${fmt(amt)}`, 'var(--sapphire)');
+    UI.refresh();
   },
   vendre(type, amt) {
-    let n = Math.min(amt, S[type]);
-    if (n > 0) { S[type] -= n; S.courant += n; UI.log(`← Vente ${type.toUpperCase()} +${fmt(n)}`, 'var(--emerald)'); UI.refresh(); }
+    const n = Math.min(amt, S[type]);
+    if (n<=0) { Toast.show('Portefeuille vide', 'Rien à vendre', 'error'); return; }
+    S[type]-=n; S.courant+=n;
+    UI.log(`← Vente ${type.toUpperCase()} +${fmt(n)}`, 'var(--emerald)');
+    UI.refresh();
   },
   acheterImmo() {
-    if (S.courant >= 20000) {
-      let p = CALC.prixImmo();
-      S.courant -= 20000; S.dettes += Math.max(0,p-20000); S.nbApparts++;
-      S.reputation = clamp(S.reputation+5,0,500);
-      UI.log(`🏢 Acquisition immobilière · ${fmt(p)}`, 'var(--gold)');
-      UI.refresh();
-    }
+    if (S.courant<20000) { Toast.show('Apport insuffisant', '20k€ requis', 'error'); return; }
+    const p = CALC.prixImmo();
+    S.courant-=20000; S.dettes+=Math.max(0,p-20000); S.nbApparts++;
+    S.reputation = clamp(S.reputation+5,0,500);
+    UI.log(`🏢 Acquisition lot ${S.nbApparts} — ${fmt(p)}`, 'var(--gold)');
+    UI.refresh();
   },
   vendreImmo() {
-    if (S.nbApparts > 0) {
-      let p = CALC.prixImmo(); S.nbApparts--; S.courant += p;
-      UI.log(`🏢 Vente immobilière +${fmt(p)}`, 'var(--emerald)'); UI.refresh();
-    }
+    if (S.nbApparts<=0) { Toast.show('Aucun lot', 'Rien à vendre', 'error'); return; }
+    const p=CALC.prixImmo(); S.nbApparts--; S.courant+=p;
+    UI.log(`🏢 Vente immobilière +${fmt(p)}`, 'var(--emerald)'); UI.refresh();
   },
   rembourserDette() {
-    let m = Math.min(10000, S.dettes, S.courant);
-    if (m>0) { S.courant-=m; S.dettes-=m; UI.refresh(); }
+    const m=Math.min(10000,S.dettes,S.courant);
+    if (m<=0) { Toast.show('Aucune dette', 'Bilan sain !', 'success'); return; }
+    S.courant-=m; S.dettes-=m;
+    Toast.show('Dette réduite', `−${fmt(m)}`, 'success');
+    UI.refresh();
   },
   lancerBiz() {
-    if (S.courant >= 100000) {
-      S.courant -= 100000; S.isEntrepreneur = true;
-      S.maxSalaire = Math.max(S.maxSalaire, 5000);
-      S.reputation = clamp(S.reputation+20,0,500);
-      UI.log('👑 Société fondée. Bienvenue dans l\'entrepreneuriat.', 'var(--gold)'); UI.refresh();
-    }
+    if (S.courant<100000) { Toast.show('Capital insuffisant', '100k€ requis', 'error'); return; }
+    S.courant-=100000; S.isEntrepreneur=true;
+    S.maxSalaire = Math.max(S.maxSalaire,5000);
+    S.reputation = clamp(S.reputation+20,0,500);
+    confetti(window.innerWidth/2, window.innerHeight/2);
+    UI.log('⚡ Société fondée. Bienvenue dans l\'entrepreneuriat.', 'var(--gold)');
+    Toast.show('Entreprise fondée !', 'Votre empire commence ici', 'gold', 4000);
+    UI.refresh();
   },
   ameliorerBiz() {
-    let c = S.bizLevel*20000;
-    if (S.courant >= c) {
-      S.courant -= c; S.bizLevel++;
-      S.maxSalaire = Math.max(S.maxSalaire, S.bizLevel*5000);
-      S.reputation = clamp(S.reputation+10,0,500);
-      UI.log(`📈 Holding niveau ${S.bizLevel}`, 'var(--gold)'); UI.refresh();
-    }
+    const c=S.bizLevel*20000;
+    if (S.courant<c) { Toast.show('Fonds insuffisants', `${fmt(c)} requis`, 'error'); return; }
+    S.courant-=c; S.bizLevel++;
+    S.maxSalaire = Math.max(S.maxSalaire,S.bizLevel*5000);
+    S.reputation = clamp(S.reputation+12,0,500);
+    UI.log(`📈 Holding niveau ${S.bizLevel}`, 'var(--gold)');
+    Toast.show(`Holding Niv.${S.bizLevel}`, '+bénéfices +valorisation', 'gold');
+    UI.refresh();
   },
   lancerIPO() {
-    if (!S.ipoListed && S.bizLevel >= 5 && S.courant >= 200000) {
-      S.courant -= 200000; S.ipoListed = true;
-      S.reputation = clamp(S.reputation+70,0,500);
-      UI.log('🎉 IPO réussie ! La holding est désormais cotée en bourse.', 'var(--gold)'); UI.refresh();
-    } else { alert(`Requis : Holding Niveau 5+ et 200k€ de capital.`); }
+    if (S.ipoListed) return;
+    if (S.bizLevel<5||S.courant<200000) { Toast.show('Conditions non remplies','Holding Niv.5+ et 200k€','error'); return; }
+    S.courant-=200000; S.ipoListed=true;
+    S.reputation=clamp(S.reputation+80,0,500);
+    confetti(window.innerWidth/2,window.innerHeight/2);
+    UI.log('🎉 IPO réussie ! Holding cotée en bourse.', 'var(--gold)');
+    Toast.show('IPO RÉUSSIE !', '×2.2 valorisation · +80 réputation', 'gold', 5000);
+    UI.refresh();
   },
   payerFormation() {
-    if (S.courant >= 5000 && S.studyLevel < 6) {
-      S.courant -= 5000; S.studyLevel++;
-      S.reputation = clamp(S.reputation+5,0,500);
-      UI.log(`🎓 Diplôme niveau ${S.studyLevel} obtenu`, 'var(--sapphire)'); UI.refresh();
-    }
+    if (S.studyLevel>=6) { Toast.show('Formation maximale', 'Vous avez tout les diplômes !', 'info'); return; }
+    if (S.courant<5000) { Toast.show('Fonds insuffisants','5k€ requis','error'); return; }
+    S.courant-=5000; S.studyLevel++;
+    S.reputation=clamp(S.reputation+5,0,500);
+    UI.log(`🎓 Diplôme niveau ${S.studyLevel} obtenu`, 'var(--sapphire)');
+    Toast.show(`Diplôme Niv.${S.studyLevel}`, 'Nouvelles promotions disponibles', 'success');
+    UI.refresh();
   },
   demanderPromotion() {
-    if (S.jobLevel >= CAREERS.length-1) return;
-    let next = CAREERS[S.jobLevel+1];
-    if (S.studyLevel >= next.studyReq) {
-      S.jobLevel++;
-      S.maxSalaire = Math.max(S.maxSalaire, CAREERS[S.jobLevel].salary);
-      S.reputation = clamp(S.reputation+8,0,500);
-      UI.log(`🆙 Promotion : ${CAREERS[S.jobLevel].label}`, 'var(--emerald)'); UI.refresh();
-    } else { alert(`Niveau d'études ${next.studyReq} requis.`); }
+    if (S.jobLevel>=CAREERS.length-1) { Toast.show('Sommet atteint', 'Niveau maximal', 'info'); return; }
+    const next=CAREERS[S.jobLevel+1];
+    if (S.studyLevel<next.studyReq) { Toast.show('Niveau d\'études insuffisant', `Requis : Niv.${next.studyReq}`, 'error'); return; }
+    S.jobLevel++;
+    S.maxSalaire=Math.max(S.maxSalaire,CAREERS[S.jobLevel].salary);
+    S.reputation=clamp(S.reputation+10,0,500);
+    UI.log(`🆙 Promotion : ${CAREERS[S.jobLevel].label}`, 'var(--emerald)');
+    Toast.show(`Promotion : ${CAREERS[S.jobLevel].label}`, '+'+fmt(CAREERS[S.jobLevel].salary)+'/mois', 'success');
+    UI.refresh();
   },
   avoirEnfant() {
-    S.enfants++; UI.log('👶 Un héritier est né dans la Maison.', 'var(--gold)'); UI.refresh();
+    S.enfants++;
+    UI.log('👶 Un héritier est né dans la Maison.','var(--gold)');
+    Toast.show('Nouveau né !', 'L\'héritage se perpétue', 'gold');
+    UI.refresh();
   },
   creerFiducie() {
-    if (!S.fiducie && S.courant >= 50000) {
-      S.courant -= 50000; S.fiducie = true;
-      S.taxSuccession = Math.max(5, S.taxSuccession-10);
-      UI.log('📜 Fiducie familiale constituée. Droits de succession réduits.', 'var(--gold)'); UI.refresh();
-    }
+    if (S.fiducie) { Toast.show('Fiducie existante', 'Déjà constituée', 'info'); return; }
+    if (S.courant<50000) { Toast.show('Fonds insuffisants','50k€ requis','error'); return; }
+    S.courant-=50000; S.fiducie=true;
+    S.taxSuccession=Math.max(5,S.taxSuccession-10);
+    UI.log('📜 Fiducie familiale constituée.','var(--gold)');
+    Toast.show('Fiducie créée','Droits succession réduits de 10%','gold');
+    UI.refresh();
   },
   recruterContact(id) {
-    let c = NETWORK_CONTACTS.find(x=>x.id===id);
-    if (!c || S.contacts.includes(id)) return;
-    if (S.reputation < c.repReq) { alert(`Réputation insuffisante (requis: ${c.repReq})`); return; }
-    if (S.courant < c.cost) { alert('Fonds insuffisants.'); return; }
-    S.courant -= c.cost;
+    const c=NETWORK_CONTACTS.find(x=>x.id===id);
+    if (!c||S.contacts.includes(id)) return;
+    if (S.reputation<c.repReq) { Toast.show('Réputation insuffisante',`Requis: ${c.repReq} pts`,'error'); return; }
+    if (S.courant<c.cost) { Toast.show('Fonds insuffisants',`${fmt(c.cost)} requis`,'error'); return; }
+    S.courant-=c.cost;
     c.effect(S);
     S.contacts.push(id);
-    UI.log(`🤝 Contact recruté : ${c.name} · ${c.bonus}`, 'var(--gold)'); UI.refresh();
+    UI.log(`🤝 Contact recruté : ${c.name} · ${c.bonus}`, 'var(--gold)');
+    Toast.show(c.name, c.bonus, 'gold');
+    UI.refresh();
   },
   acheterLuxe(id) {
-    let l = LUXE_ITEMS.find(x=>x.id===id);
-    if (!l || S.luxesOwned.includes(id)) return;
-    if (S.courant < l.price) { alert('Fonds insuffisants.'); return; }
-    S.courant -= l.price;
-    S.luxeEntretien += l.maint;
-    S.luxeStress += l.stress;
-    S.reputation = clamp(S.reputation+l.rep,0,500);
+    const l=LUXE_ITEMS.find(x=>x.id===id);
+    if (!l||S.luxesOwned.includes(id)) return;
+    if (S.courant<l.price) { Toast.show('Fonds insuffisants',`${fmt(l.price)} requis`,'error'); return; }
+    S.courant-=l.price;
+    S.luxeEntretien+=l.maint;
+    S.luxeStress+=l.stress;
+    S.reputation=clamp(S.reputation+l.rep,0,500);
     S.luxesOwned.push(id);
-    UI.log(`💎 ${l.name} acquis · +${l.rep} réputation`, 'var(--gold)'); UI.refresh();
+    UI.log(`💎 ${l.name} acquis · +${l.rep} réputation`, 'var(--gold)');
+    Toast.show(l.name, `+${l.rep} réputation`, 'gold');
+    if (l.price>=1000000) confetti(window.innerWidth/2,window.innerHeight/2);
+    UI.refresh();
   },
-  soin(cost, type, val) {
-    if (S.courant < cost) { alert('Fonds insuffisants.'); return; }
-    S.courant -= cost;
-    if (type==='bonheur') S.bonheur = clamp(S.bonheur+val,0,100);
-    else if (type==='sante') S.sante = clamp(S.sante+val,0,100);
-    else if (type==='both') { S.bonheur=clamp(S.bonheur+val,0,100); S.sante=clamp(S.sante+val,0,100); }
+  soin(cost,type,val) {
+    if (S.courant<cost) { Toast.show('Fonds insuffisants',`${fmt(cost)} requis`,'error'); return; }
+    S.courant-=cost;
+    if (type==='bonheur') S.bonheur=clamp(S.bonheur+val,0,100);
+    else if (type==='sante') S.sante=clamp(S.sante+val,0,100);
+    else { S.bonheur=clamp(S.bonheur+val,0,100); S.sante=clamp(S.sante+val,0,100); }
+    Toast.show('Soins effectués', `+${val} — ${fmt(cost)}`, 'success');
     UI.refresh();
   },
   reset() {
-    if (confirm('Détruire la Dynastie entière ? Action irréversible.')) {
-      localStorage.removeItem(SAVE_KEY); location.reload();
-    }
+    // Custom confirm via sheet
+    const overlay = document.createElement('div');
+    overlay.className = 'sheet-overlay';
+    overlay.innerHTML = `<div class="sheet">
+      <div class="sheet-handle"></div>
+      <span class="sheet-icon">💣</span>
+      <div class="sheet-title serif">Détruire la Dynastie</div>
+      <div class="sheet-body">Cette action est <strong>irréversible</strong>. Tout le patrimoine dynastique sera perdu à jamais.</div>
+      <div class="sheet-choices">
+        <button class="btn btn-red" onclick="localStorage.removeItem('${SAVE_KEY}');location.reload();">💣 Confirmer la Destruction</button>
+        <button class="btn" onclick="this.closest('.sheet-overlay').remove()">Annuler</button>
+      </div>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
   },
 
   _chooseEvent(idx) {
-    if (!window._currentModal) return;
-    let { overlay, evObj } = window._currentModal;
-    let res = evObj.choices[idx].effect(S);
-    let resEl = $('modalResult');
+    if (!window._currentSheet) return;
+    const { overlay, evObj } = window._currentSheet;
+    const res = evObj.choices[idx].effect(S);
+    const resEl = overlay.querySelector('#sheetResult');
     resEl.textContent = res.txt;
-    resEl.className = 'modal-result '+res.cls;
+    resEl.className = 'sheet-result '+res.cls;
     resEl.style.display = 'block';
-    overlay.querySelectorAll('.modal-choice button').forEach(b=>b.disabled=true);
-    setTimeout(() => { overlay.remove(); window._currentModal=null; UI.refresh(); }, 1800);
-  },
+    overlay.querySelectorAll('.sheet-choices button').forEach(b=>b.disabled=true);
+    if (res.cls==='good') confetti(window.innerWidth/2, window.innerHeight/2);
+    setTimeout(() => { overlay.remove(); window._currentSheet=null; UI.refresh(); }, 1800);
+  }
 };
 
 /* ═══════════════════════════════════════════════════
-   LIFECYCLE
+   SUCCESSION
 ═══════════════════════════════════════════════════ */
-function gererVieillesse() {
-  if (S.ageAnnees >= 65 && !S.isRetired) {
+function gererVieillissement() {
+  if (S.ageAnnees>=65 && !S.isRetired) {
     S.isRetired = true;
     S.isEntrepreneur = false;
     S.ipoListed = false;
-    S.pension = S.maxSalaire * 0.55;
-    UI.log(`🏖️ Retraite ! Pension mensuelle : ${fmt(S.pension)}`, 'var(--gold)');
+    S.pension = S.maxSalaire*0.55;
+    UI.log(`🏖️ Retraite ! Pension: ${fmt(S.pension)}/m`, 'var(--gold)');
+    Toast.show('Retraite Dorée !', `Pension: ${fmt(S.pension)}/mois`, 'gold', 5000);
+    confetti(window.innerWidth/2, window.innerHeight/2);
   }
-  if (S.ageAnnees >= 75) {
-    let mortChance = (S.ageAnnees - 70) * 0.003;
-    mortChance *= clamp(2 - S.sante/100, 0.5, 2);
-    if (Math.random() < mortChance) declencherHeritage();
+  if (S.ageAnnees>=78) {
+    const mortChance = (S.ageAnnees-74)*0.004 * clamp(2-S.sante/100, .5, 2);
+    if (Math.random() < mortChance) declencherSuccession();
   }
 }
 
-function declencherHeritage() {
-  let nw = CALC.netWorth();
-  if (S.enfants === 0) {
-    alert(`⚱️ Décédé à ${S.ageAnnees} ans sans héritier.\nL'État saisit l'intégralité du patrimoine.\n\n— Fin de la Dynastie —`);
-    localStorage.removeItem(SAVE_KEY); location.reload(); return;
+function declencherSuccession() {
+  const nw = CALC.netWorth();
+  if (S.enfants===0) {
+    const overlay = document.createElement('div');
+    overlay.className = 'sheet-overlay';
+    overlay.innerHTML = `<div class="sheet">
+      <div class="sheet-handle"></div>
+      <span class="sheet-icon">⚱️</span>
+      <div class="sheet-title serif">Fin de la Lignée</div>
+      <div class="sheet-body">Décédé à ${S.ageAnnees} ans sans héritier.<br>L'État saisit l'intégralité du patrimoine.</div>
+      <div class="sheet-result bad">− ${fmt(nw)} · Fin de la Dynastie</div>
+      <div class="sheet-choices">
+        <button class="btn btn-red" onclick="localStorage.removeItem('${SAVE_KEY}');location.reload();">Recommencer une Nouvelle Lignée</button>
+      </div>
+    </div>`;
+    document.body.appendChild(overlay);
+    return;
   }
-  let taxes  = Math.max(0, nw) * (S.taxSuccession/100);
-  let herit  = Math.max(5000, nw - taxes);
-  let repHer = Math.floor(S.reputation * 0.4);
-  alert(`⚱️ Décès à ${S.ageAnnees} ans.\n\nPatrimoine : ${fmt(nw)}\nSuccession (${S.taxSuccession}%) : −${fmt(taxes)}\n\nVos enfants héritent de ${fmt(herit)} et ${repHer} pts de réputation.`);
-  let oldGen = S.generation;
+  const taxes = Math.max(0,nw)*(S.taxSuccession/100);
+  const herit = Math.max(5000, nw-taxes);
+  const repHer = Math.floor(S.reputation*0.45);
+  const oldGen = S.generation;
+  const overlay = document.createElement('div');
+  overlay.className = 'sheet-overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <div class="sheet-handle"></div>
+    <span class="sheet-icon">⚱️</span>
+    <div class="sheet-title serif">Passage de Flambeau</div>
+    <div class="sheet-body">Le fondateur s'éteint à ${S.ageAnnees} ans.<br><br>
+      Patrimoine: <strong>${fmt(nw)}</strong><br>
+      Droits (${S.taxSuccession}%): <strong>−${fmt(taxes)}</strong><br>
+      Héritage transmis: <strong style="color:var(--gold-l)">${fmt(herit)}</strong>
+    </div>
+    <div class="sheet-result gold">Génération ${roman[Math.min(oldGen,9)]} → ${roman[Math.min(oldGen,9)]} · ${fmt(herit)} transmis</div>
+    <div class="sheet-choices">
+      <button class="btn btn-gold" onclick="window._doSuccession(${herit},${repHer},${oldGen+1})">⚜️ Commencer Génération ${roman[Math.min(oldGen,9)]}</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+window._doSuccession = (herit, repHer, newGen) => {
+  document.querySelectorAll('.sheet-overlay').forEach(e=>e.remove());
   S = Object.assign({}, DEFAULTS);
-  S.generation = oldGen + 1;
+  S.generation = newGen;
   S.courant    = herit;
   S.reputation = repHer;
   stockIdx  = 100;
   stockHist = Array(60).fill(100);
-  UI.log(`👑 Génération ${S.generation} prend le relais !`, 'var(--gold)');
-}
+  confetti(window.innerWidth/2, window.innerHeight/2);
+  UI.log(`👑 Génération ${roman[Math.min(newGen-1,9)]} prend le relais !`, 'var(--gold)');
+  Toast.show(`Génération ${roman[Math.min(newGen-1,9)]} !`, `Héritage : ${fmt(herit)}`, 'gold', 5000);
+  UI.refresh();
+};
 
 /* ═══════════════════════════════════════════════════
-   GAME LOOP
+   GAME LOOP — 1s = 1 mois
 ═══════════════════════════════════════════════════ */
 setInterval(() => {
   S.moisTotal++;
   S.ageMois++;
 
-  // ── Cycle macro ──
-  if (Math.random() < 0.007) {
-    let old = S.macroCycle;
-    // Drift vers la moyenne si crise ou boom
-    if (old === 0 && Math.random() < .5) S.macroCycle = 1;
-    else if (old === 2 && Math.random() < .4) S.macroCycle = 1;
+  // ── Macro cycle ──
+  if (Math.random() < 0.008) {
+    const old = S.macroCycle;
+    if (old===0 && Math.random()<.55) S.macroCycle=1;
+    else if (old===2 && Math.random()<.45) S.macroCycle=1;
     else S.macroCycle = Math.floor(Math.random()*3);
-    if (S.macroCycle !== old) {
-      let msgs = ['📉 KRACH — Récession déclenchée.','⚖️ Stabilisation des marchés.','🚀 BULL RUN — Euphorie générale !'];
-      UI.log(msgs[S.macroCycle], S.macroCycle===0?'var(--ruby)':S.macroCycle===2?'var(--emerald)':'var(--muted)');
+    if (S.macroCycle!==old) {
+      const msgs = ['📉 KRACH — Récession mondiale.','⚖️ Stabilisation des marchés.','🚀 BULL RUN — Euphorie des marchés !'];
+      const cols  = ['var(--ruby)','var(--muted)','var(--emerald)'];
+      UI.log(msgs[S.macroCycle], cols[S.macroCycle]);
+      Toast.show(msgs[S.macroCycle], '', S.macroCycle===0?'error':S.macroCycle===2?'success':'info', 3500);
     }
   }
 
-  // ── Revenus & dépenses ──
-  let rev     = CALC.revenus() + S.nbApparts*1000*S.immoRentBonus;
-  let charges = CALC.charges();
+  // ── Revenus & charges ──
+  const rev = CALC.revenus() + S.nbApparts*1000*S.immoRentBonus;
+  const charges = CALC.charges();
   S.courant += rev - charges;
   S.revenusAnnuels += rev;
+  S.revenusAnnuelsCumules += rev;
 
-  // ── Marchés ──
-  if (S.livret > 0) S.livret *= 1.0025;
+  // ── Épargne sécurisée ──
+  if (S.livret>0) S.livret *= 1.00267; // 3.2% / 12
 
-  let etfDrift = S.macroCycle===0 ? -0.013 : S.macroCycle===2 ? 0.019 : 0.004;
+  // ── ETF ──
+  let etfDrift = {0:-.014,1:.005,2:.020}[S.macroCycle]||.005;
   etfDrift += S.etfBonus;
-  etfDrift += (Math.random()-.5)*0.028;
-  if (S.etf > 0) S.etf = Math.max(0, S.etf * (1+etfDrift));
+  etfDrift += (Math.random()-.48)*.030;
+  if (S.etf>0) S.etf = Math.max(0, S.etf*(1+etfDrift));
 
-  stockIdx = Math.max(5, stockIdx * (1 + etfDrift*.7 + (Math.random()-.5)*.012));
+  // ── Stock index ──
+  stockIdx = Math.max(5, stockIdx*(1+etfDrift*.65+(Math.random()-.5)*.014));
   stockHist.push(stockIdx);
-  if (stockHist.length > 60) stockHist.shift();
+  if (stockHist.length>60) stockHist.shift();
 
-  if (S.crypto > 0) {
-    let cryptoDrift = (Math.random()-.46)*.14;
-    S.crypto = Math.max(0, S.crypto*(1+cryptoDrift));
+  // ── Crypto ──
+  if (S.crypto>0) {
+    const d = (Math.random()-.46)*.16;
+    S.crypto = Math.max(0, S.crypto*(1+d));
+    // Hack chance
+    if (Math.random()<0.003) {
+      S.crypto*=.5;
+      UI.log('🔓 Crypto partiellement hackée !','var(--ruby)');
+      Toast.show('Alerte Sécurité','50% du portefeuille crypto compromis','error');
+    }
   }
-  if (S.dettes > 0) S.dettes *= (1 + S.debtRate/12);
 
-  // ── Réputation ──
-  S.reputation = Math.max(0, S.reputation - .04 + (S.repBonus/30));
+  // ── Dettes ──
+  if (S.dettes>0) S.dettes *= (1+S.debtRate/12);
+
+  // ── Réputation déclin ──
+  S.reputation = Math.max(0, S.reputation - .05 + (S.repBonus/30));
 
   // ── Santé mentale ──
   if (!S.isRetired) {
-    let stress = S.isEntrepreneur ? 9 : 5;
-    stress -= (S.enfants>0?1:0);
+    let stress = S.isEntrepreneur?10:5;
     stress -= S.luxeStress;
     stress -= Math.floor(S.reputation/80);
-    S.bonheur = Math.max(0, S.bonheur - Math.max(.4, stress));
+    stress -= (S.enfants>0?1.5:0);
+    S.bonheur = Math.max(0, S.bonheur - Math.max(.3, stress));
   } else {
-    S.bonheur = clamp(S.bonheur + 2, 0, 100);
+    S.bonheur = clamp(S.bonheur+2.5,0,100);
   }
 
   // ── Santé physique ──
-  let santeDeclin = 0.04 + Math.max(0, S.ageAnnees-40)*0.012;
-  santeDeclin *= (1 - (S.healthBonus||0));
-  let wealthHeal  = Math.min(.05, CALC.netWorth()/8e6*.05);
-  S.sante = clamp(S.sante - santeDeclin + wealthHeal, 0, 100);
+  const ageFactor = Math.max(0,S.ageAnnees-40)*0.015;
+  const santeDeclin = (0.04+ageFactor)*(1-(S.healthBonus||0));
+  const wealthHeal  = Math.min(.06, CALC.netWorth()/10e6*.06);
+  S.sante = clamp(S.sante-santeDeclin+wealthHeal,0,100);
 
   // ── Burn-out ──
-  if (S.bonheur <= 0) {
-    S.courant -= 6000;
-    S.bonheur = 30;
-    S.sante = Math.max(0, S.sante - 8);
-    UI.log('🚨 BURN-OUT — Hospitalisation : −6k€', 'var(--ruby)');
+  if (S.bonheur<=0) {
+    S.courant -= 7000; S.bonheur=28; S.sante=Math.max(0,S.sante-10);
+    UI.log('🚨 BURN-OUT — Hospitalisation: −7k€','var(--ruby)');
+    Toast.show('Burn-out !','Hospitalisation forcée','error',4000);
   }
 
   // ── Ruine ──
-  if (S.courant < -80000) {
-    S.courant = 1000;
-    S.dettes += 40000;
-    UI.log('⚠️ Insolvabilité ! Restructuration forcée.', 'var(--ruby)');
+  if (S.courant<-100000) {
+    S.courant=500; S.dettes+=50000;
+    UI.log('⚠️ Insolvabilité — Restructuration forcée','var(--ruby)');
+    Toast.show('Insolvabilité !','Restructuration forcée +50k dettes','error',4000);
   }
 
-  // ── Vieillissement ──
-  gererVieillesse();
-
-  // ── Événements aléatoires ──
-  let evCooldown = 20 + Math.random()*20;
-  if (S.moisTotal - S.lastEventMonth > evCooldown && Math.random() < 0.045) {
-    S.lastEventMonth = S.moisTotal;
-    let ev = EVENTS[Math.floor(Math.random()*EVENTS.length)];
-    if (!window._currentModal) UI.modal(ev);
-  }
-
-  // ── Fin d'année ──
-  if (S.ageMois >= 12) {
-    S.ageMois = 0;
-    S.ageAnnees++;
-
-    // Impôt progressif réaliste
-    let ri = S.revenusAnnuels;
-    let impot = ri < 30000 ? ri*.11 : ri < 80000 ? ri*.21 : ri < 200000 ? ri*.30 : ri < 500000 ? ri*.38 : ri*.45;
+  // ── Vieillissement annuel ──
+  if (S.ageMois>=12) {
+    S.ageMois=0; S.ageAnnees++;
+    const ri = S.revenusAnnuels;
+    let taux = ri<30000?.11:ri<80000?.21:ri<200000?.30:ri<500000?.38:.45;
+    taux *= (1-(S.taxDiscount||0));
+    const impot = ri*taux;
     S.courant -= impot;
-
-    // Taxe foncière
-    if (S.nbApparts > 0) S.courant -= S.nbApparts*1600;
-
+    if (S.nbApparts>0) S.courant -= S.nbApparts*1800; // taxe foncière
     S.revenusAnnuels = 0;
+    S.coutVieBase  *= 1.025; // inflation
+    S.prixImmoBase *= 1.032;
+    UI.log(`📅 ${S.ageAnnees-1} ans · Impôts −${fmt(impot)} · Immo +3.2%`, 'var(--muted)');
+    gererVieillissement();
+  }
 
-    // Inflation
-    S.coutVieBase  *= 1.024;
-    S.prixImmoBase *= 1.030;
-
-    UI.log(`📅 Bilan ${S.ageAnnees-1} ans · Impôts −${fmt(impot)} · Immo +3%`, 'var(--muted)');
+  // ── Événements ──
+  const evCooldown = 18+Math.random()*18;
+  if (S.moisTotal-S.lastEventMonth>evCooldown && Math.random()<0.05) {
+    S.lastEventMonth = S.moisTotal;
+    const ev = EVENTS[Math.floor(Math.random()*EVENTS.length)];
+    if (!window._currentSheet) UI.sheet(ev);
   }
 
   UI.refresh();
 }, 1000);
 
-// ── INIT ──
+/* ═══════════════════════════════════════════════════
+   SWIPE TO CHANGE TAB
+═══════════════════════════════════════════════════ */
+let swipeStartX = null;
+const sp = $('scrollPane');
+sp.addEventListener('touchstart', e => { swipeStartX = e.touches[0].clientX; }, {passive:true});
+sp.addEventListener('touchend', e => {
+  if (swipeStartX===null) return;
+  const dx = e.changedTouches[0].clientX - swipeStartX;
+  swipeStartX = null;
+  if (Math.abs(dx)<60) return;
+  const cur  = tabs.indexOf(activeTab);
+  const next = dx<0 ? Math.min(cur+1,tabs.length-1) : Math.max(cur-1,0);
+  if (next===cur) return;
+  const btn = $('tab-'+tabs[next]);
+  UI.tab(tabs[next], btn);
+}, {passive:true});
+
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
 UI.refresh();
 drawChart();
-if (S.moisTotal === 0) {
-  UI.log('⚜️ Bienvenue à la Banque Privée. Bâtissez votre Héritage Dynastique.', 'var(--gold)');
+initChartTouch();
+
+if (S.moisTotal===0) {
+  UI.log('⚜️ Bienvenue à la Banque Privée Dynastique. Bâtissez votre Héritage.', 'var(--gold)');
+  setTimeout(()=> Toast.show('⚜️ Bienvenue', 'Bâtissez votre empire dynastique', 'gold', 4000), 600);
 }
+
 window.G  = G;
 window.UI = UI;
 </script>
-
 </body>
 </html>
